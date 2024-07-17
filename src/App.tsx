@@ -1,33 +1,32 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./Pages/Home";
-import { useEffect } from "react";
-import { socket } from "./socket";
+import { Provider } from "react-redux";
+import { Lobby } from "./Pages/Lobby";
+import { store } from "./store";
+import { SocketProvider } from "./context/SocketContext";
 
 function App() {
-  useEffect(() => {
-    function onConnect() {
-      console.log("connected");
-    }
-
-    function onDisconnect() {}
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/lobby/:roomID" element={<Lobby />} /> */}
-        {/* <Route path="/game-board/:roomID" element={<GameBoard />} /> */}
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <SocketWrapper />
+      </BrowserRouter>
+    </Provider>
   );
 }
+
+const SocketWrapper = () => {
+  const navigate = useNavigate();
+
+  return (
+    <SocketProvider navigate={navigate}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/lobby/:roomID" element={<Lobby />} />
+        {/* <Route path="/game-board/:roomID" element={<GameBoard />} /> */}
+      </Routes>
+    </SocketProvider>
+  );
+};
 
 export default App;

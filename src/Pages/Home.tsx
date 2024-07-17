@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { RulesModal } from "../components/RulesModal";
+import { socket } from "../socket";
 
 const TOGGLE_CLASSES =
   "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10";
@@ -8,6 +9,21 @@ const TOGGLE_CLASSES =
 export function Home() {
   const [isCreatingGame, setIsCreatingGame] = useState(true);
   const [isRulesOpen, setIsRulesOpen] = useState(false);
+  const [detail, setDetail] = useState<{
+    roomName: string;
+    userName: string;
+    numberOfPlayers: number;
+  }>({ numberOfPlayers: 2, roomName: "", userName: "" });
+
+  const createRoom = () => {
+    socket.emit("createRoom", detail);
+  };
+  const joinRoom = () => {
+    socket.emit("joinRoom", {
+      userName: detail.userName,
+      roomName: detail.roomName,
+    });
+  };
   return (
     <div className="bg-gradient-to-br from-red-300 via-white to-blue-300 flex flex-col items-center h-screen">
       <div className="flex flex-row gap-10 mt-16 ">
@@ -55,12 +71,14 @@ export function Home() {
               <p>Username</p>
               <input
                 className="border p-1 w-full rounded-md"
-                value={""}
-                // value={user}
+                value={detail.userName}
                 placeholder="Enter a username"
-                // onChange={(ev) => {
-                //   //   setUser(ev.target.value);
-                // }}
+                onChange={(ev) => {
+                  setDetail((prev) => ({
+                    ...prev,
+                    userName: ev.target.value,
+                  }));
+                }}
               />
             </div>
             <div>
@@ -68,10 +86,10 @@ export function Home() {
               <input
                 placeholder="Enter a room"
                 className="border w-full p-1 rounded-md"
-                // value={room}
-                // onChange={(ev) => {
-                //   setRoom(ev.target.value);
-                // }}
+                value={detail.roomName}
+                onChange={(ev) => {
+                  setDetail((prev) => ({ ...prev, roomName: ev.target.value }));
+                }}
               />
             </div>
             {isCreatingGame && (
@@ -83,10 +101,13 @@ export function Home() {
                   max={8}
                   placeholder="Enter number of players"
                   className="border w-full p-1 rounded-md"
-                  //   value={numberOfPlayers}
-                  //   onChange={(ev) => {
-                  //     setNumberOfPlayers(+ev.target.value);
-                  //   }}
+                  value={detail.numberOfPlayers}
+                  onChange={(ev) => {
+                    setDetail((prev) => ({
+                      ...prev,
+                      numberOfPlayers: +ev.target.value,
+                    }));
+                  }}
                 />
               </div>
             )}
@@ -95,14 +116,14 @@ export function Home() {
             {isCreatingGame ? (
               <button
                 className="border  border-black   p-1 rounded-lg"
-                // onClick={handleCreateGame}
+                onClick={createRoom}
               >
                 Create game!
               </button>
             ) : (
               <button
                 className="border p-1 border-black  rounded-lg"
-                // onClick={handleJoinGame}
+                onClick={joinRoom}
               >
                 Join game!
               </button>
@@ -116,15 +137,6 @@ export function Home() {
               Read the rules
             </button>
             <RulesModal isOpen={isRulesOpen} setIsOpen={setIsRulesOpen} />
-            {/* <button
-            className="border p-1"
-            onClick={async () => {
-              await fetch("http://localhost:3000/delete");
-              // socket.emit("joinLobby", "wow");
-            }}
-          >
-            Delete database
-          </button> */}
           </section>
         </div>
       </div>
