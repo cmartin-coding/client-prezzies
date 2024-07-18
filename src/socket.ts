@@ -19,7 +19,8 @@ export interface ServerToClientEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void;
   withAck: (d: string, callback: (e: number) => void) => void;
   onCreatedRoom: (params: { room: Room; player: PlayerState }) => void;
-  onJoinedRoom: () => void;
+  onJoinedRoom: (params: { room: Room; player: PlayerState }) => void;
+  onUpdateRoom: (params: { updatedRoom: Room }) => void;
 }
 
 export interface ClientToServerEvents {

@@ -1,13 +1,18 @@
 // SocketContext.js
 import { createContext, ReactNode, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { onCreatedRoom } from "../socketListeners";
+import { onCreatedRoom, onJoinRoom, onUpdateRoom } from "../socketListeners";
 import { socket } from "../socket";
 import { NavigateFunction } from "react-router-dom";
+import { Socket } from "socket.io-client";
+interface ISocketContext {
+  socket: Socket | null;
+}
+export const SocketContext = createContext<ISocketContext | undefined>(
+  undefined
+);
 
-const SocketContext = createContext(null as any);
-
-const SocketProvider = ({
+export const SocketProvider = ({
   children,
   navigate,
 }: {
@@ -18,13 +23,19 @@ const SocketProvider = ({
 
   useEffect(() => {
     const handleCreateRoom = onCreatedRoom(dispatch, navigate);
+    const handleJoinRoom = onJoinRoom(dispatch, navigate);
+    const handleUpdateRoom = onUpdateRoom(dispatch);
 
     socket.on("onCreatedRoom", handleCreateRoom);
+    socket.on("onJoinedRoom", handleJoinRoom);
+    socket.on("onUpdateRoom", handleUpdateRoom);
 
     return () => {
       socket.off("onCreatedRoom", handleCreateRoom);
+      socket.off("onJoinedRoom", handleJoinRoom);
+      socket.off("onUpdateRoom", handleUpdateRoom);
     };
-  }, [dispatch, navigate]);
+  }, [socket]);
 
   return (
     <SocketContext.Provider value={{ socket }}>
@@ -32,5 +43,3 @@ const SocketProvider = ({
     </SocketContext.Provider>
   );
 };
-
-export { SocketContext, SocketProvider };

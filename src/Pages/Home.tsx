@@ -13,7 +13,7 @@ export function Home() {
     roomName: string;
     userName: string;
     numberOfPlayers: number;
-  }>({ numberOfPlayers: 2, roomName: "", userName: "" });
+  }>({ numberOfPlayers: 4, roomName: "", userName: "" });
 
   const createRoom = () => {
     socket.emit("createRoom", detail);
@@ -24,6 +24,7 @@ export function Home() {
       roomName: detail.roomName,
     });
   };
+
   return (
     <div className="bg-gradient-to-br from-red-300 via-white to-blue-300 flex flex-col items-center h-screen">
       <div className="flex flex-row gap-10 mt-16 ">
@@ -82,9 +83,11 @@ export function Home() {
               />
             </div>
             <div>
-              <p>Room</p>
+              <p>{isCreatingGame ? "Room Name" : "Room Code"}</p>
               <input
-                placeholder="Enter a room"
+                placeholder={
+                  isCreatingGame ? "Enter a room name" : "Enter the room code"
+                }
                 className="border w-full p-1 rounded-md"
                 value={detail.roomName}
                 onChange={(ev) => {
