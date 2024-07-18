@@ -55,15 +55,40 @@ import {
 import { Card } from "../types";
 import { IconType } from "react-icons";
 
-type PlayingCardType = Card;
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
 
-export function PlayingCard(props: { card: PlayingCardType }) {
+type PlayingCardType = {
+  card: Card;
+  className?: string;
+  size?: number;
+};
+
+export function PlayingCard(props: PlayingCardType) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: props.card.card });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const fillColor =
     props.card.color === "black" ? `text-black` : "text-red-600";
-  const Card = playingCardIcons[props.card.card];
+  const CardIcon = playingCardIcons[props.card.card];
+
   return (
-    <div className={``}>
-      <Card className={`${fillColor}`} size={80} />
+    <div
+      className={`cursor-move`}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+      <CardIcon
+        className={`${fillColor} ${props.className} `}
+        size={props.size ? props.size : 80}
+      />
     </div>
   );
 }

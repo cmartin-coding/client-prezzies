@@ -35,7 +35,7 @@ export const SocketProvider = ({
       socket.off("onJoinedRoom", handleJoinRoom);
       socket.off("onUpdateRoom", handleUpdateRoom);
     };
-  }, [socket]);
+  }, []);
 
   return (
     <SocketContext.Provider value={{ socket }}>
