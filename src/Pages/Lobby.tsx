@@ -15,18 +15,20 @@ export function Lobby() {
   });
   return (
     <Container>
-      <p className={`text-lg text-black text-center`}>
-        Shareable Code: {room.shareableRoomCode}
-      </p>
-      {room.players.map((p) => (
-        <p
-          key={p.id}
-          className={`${p.id === currPlayer.id ? "text-green-400" : ""}`}
-        >
-          {p.name}
+      <div className={`m-8`}>
+        <p className={`text-lg text-black text-center`}>
+          Shareable Code: {room.shareableRoomCode}
         </p>
-      ))}
-      <PlayerHand hand={sortedHand} />
+        {room.players.map((p) => (
+          <p
+            key={p.id}
+            className={`${p.id === currPlayer.id ? "text-green-400" : ""}`}
+          >
+            {p.name}
+          </p>
+        ))}
+        <PlayerHand hand={sortedHand} />
+      </div>
     </Container>
   );
 }
