@@ -25,7 +25,10 @@ export const onUpdateRoom =
     console.log("WOWOWOW");
     dispatch(roomActions.updateRoom(params.updatedRoom));
   };
-// export const onUpdateRoom =
-//   (dispatch: Dispatch<UnknownAction>) => (params: { updatedRoom: Room }) => {
-//     dispatch(roomActions.updateRoom(params.updatedRoom));
-//   };
+
+export const onReadyUp =
+  (dispatch: Dispatch<UnknownAction>) =>
+  (params: { updatedRoom: Room; updatedPlayer: PlayerState }) => {
+    dispatch(roomActions.updateRoom(params.updatedRoom));
+    dispatch(playerActions.readyUp(params.updatedPlayer.isReady));
+  };

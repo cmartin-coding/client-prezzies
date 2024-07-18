@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { Lobby } from "./Pages/Lobby";
 import { store } from "./store";
 import { SocketProvider } from "./context/SocketContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <SocketWrapper />
       </BrowserRouter>
+      <Toaster position="top-right" />
     </Provider>
   );
 }

@@ -50,7 +50,7 @@ export function PlayerHand(props: PlayerHandType) {
       collisionDetection={closestCenter}
     >
       <SortableContext items={hand} strategy={horizontalListSortingStrategy}>
-        <div className="flex flex-row  overflow-x-scroll md:overflow-x-auto">
+        <div className="flex gap-1 flex-row  overflow-x-scroll md:overflow-x-auto">
           {hand.map((card) => (
             <PlayingCard card={card} key={card.id} className={``} />
           ))}

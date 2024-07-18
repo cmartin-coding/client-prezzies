@@ -46,7 +46,6 @@ export function PlayingCard(props: PlayingCardType) {
         className={`absolute size-3 md:size-6 top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2`}
         fill={fillColor}
       />
-
       <div
         className={`flex px-1 absolute bottom-1 right-1 flex-col-reverse items-center w-min`}
       >

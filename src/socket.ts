@@ -21,6 +21,10 @@ export interface ServerToClientEvents {
   onCreatedRoom: (params: { room: Room; player: PlayerState }) => void;
   onJoinedRoom: (params: { room: Room; player: PlayerState }) => void;
   onUpdateRoom: (params: { updatedRoom: Room }) => void;
+  onReadyUp: (params: {
+    updatedRoom: Room;
+    updatedPlayer: PlayerState;
+  }) => void;
 }
 
 export interface ClientToServerEvents {
@@ -30,4 +34,9 @@ export interface ClientToServerEvents {
     numberOfPlayers: number;
   }) => void;
   joinRoom: (params: { roomName: string; userName: string }) => void;
+  readyUp: (params: {
+    player: PlayerState;
+    room: Room;
+    readyUpStatus: boolean;
+  }) => void;
 }
