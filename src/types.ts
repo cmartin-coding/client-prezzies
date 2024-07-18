@@ -5,3 +5,4 @@ export type Card = {
   color: "cardRed" | "black";
 };
 export type Deck = Card[];
+export type Suits = "Clubs" | "Spades" | "Diamonds" | "Hearts";

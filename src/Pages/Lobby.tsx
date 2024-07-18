@@ -1,4 +1,5 @@
 import { Container } from "../components/Container";
+import { PlayingCard } from "../components/PlayingCard";
 import { useAppSelector } from "../hooks";
 
 export function Lobby() {
@@ -17,6 +18,9 @@ export function Lobby() {
         >
           {p.name}
         </p>
+      ))}
+      {currPlayer.hand.map((card) => (
+        <PlayingCard card={card} key={card.points + card.suitPoints} />
       ))}
     </Container>
   );
