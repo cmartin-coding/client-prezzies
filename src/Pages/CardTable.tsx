@@ -11,8 +11,8 @@ export function CardTable() {
   const opponents = room.players.filter((p) => p.id !== player.id);
   return (
     <Container containerStyle="flex flex-col">
-      <div className={`flex-1 p-4 flex  flex-col`}>
-        <div className={`grid grid-flow-col basis-1/5`}>
+      <div className={`flex-1 p-2 flex  flex-col`}>
+        <div className={`grid grid-flow-col gap-4 `}>
           {opponents.map((opponent) => {
             const cards = [];
             for (let i = 0; i < opponent.numberOfCardsInHand; i++) {
@@ -23,13 +23,14 @@ export function CardTable() {
                 key={opponent.id}
                 className={`flex flex-col border border-black bg-white p-2 rounded-lg`}
               >
+                {!room.isFirstGame && <p>{opponent.position}</p>}
                 <p>{opponent.name}</p>
                 <p>Total Wins: {opponent.wins}</p>
                 <div className={`flex flex-row gap-2 flex-wrap`}>
                   {cards.map((c) => (
                     <div
                       key={c}
-                      className={`w-16 h-28 border rounded-md bg-blue-300`}
+                      className={`h-10 w-7 border rounded-md bg-blue-300`}
                     />
                   ))}
                 </div>
