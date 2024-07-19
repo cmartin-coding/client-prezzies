@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Container } from "../components/Container";
 import { PlayerHand } from "../components/PlayerHand";
 import { PlayersList } from "../components/PlayersList";
@@ -5,10 +6,14 @@ import { ShareableCode } from "../components/ShareableCode";
 import { useAppSelector } from "../hooks";
 
 import { socket } from "../socket";
+import { useNavigate } from "react-router-dom";
 
 export function Lobby() {
   const room = useAppSelector((state) => state.room);
   const currPlayer = useAppSelector((state) => state.player);
+  const navigate = useNavigate();
+  const [seconds, setSeconds] = useState(5);
+  const [showCountdown, setShowCountdown] = useState(false);
   const sortedHand = [...currPlayer.hand].sort((a, b) => {
     if (a.suitPoints !== b.suitPoints) {
       return a.suitPoints - b.suitPoints;
@@ -24,7 +29,29 @@ export function Lobby() {
       return 0;
     }
   }, 0);
-  console.log(totalReadyPlayers);
+
+  // const allPlayersReady = totalReadyPlayers === room.numberOfPlayers;
+  const allPlayersReady = totalReadyPlayers === 1;
+
+  useEffect(() => {
+    // Once all players ready start a timer that counts down and starts the game sending each player to gameboard
+    if (allPlayersReady) {
+      setShowCountdown(true);
+      if (seconds > 0) {
+        const interval = setInterval(
+          () => setSeconds((prev) => prev - 1),
+          1000
+        );
+        return () => clearInterval(interval);
+      } else {
+        navigate(`/card-table/${room.id}`);
+        setShowCountdown(false);
+      }
+    } else {
+      setSeconds(5);
+    }
+  }, [allPlayersReady, seconds]);
+
   return (
     <Container containerStyle={`flex flex-col  m-8`}>
       <div className={`flex flex-col mt-6 justify-between items-center flex-1`}>
@@ -34,15 +61,26 @@ export function Lobby() {
           <p className={`font-bold text-lg text-center`}>
             Players ({room.players.length})
           </p>
+          {showCountdown && (
+            <div
+              className={`absolute flex flex-row justify-center items-center top-0  z-20 left-0 right-0 bottom-0 `}
+            >
+              <p className={`text-white z-20`}>
+                Game starting in {seconds} seconds
+              </p>
+              <div
+                className={`bg-black/70 absolute top-0 z-10 left-0 right-0 bottom-0`}
+              />
+            </div>
+          )}
+
           <PlayersList
             onReadyUp={(bool) => {
-              console.log(bool);
               socket.emit("readyUp", {
                 player: currPlayer,
                 readyUpStatus: bool,
                 room: room,
               });
-              // dispatch(playerActions.readyUp(bool));
             }}
             room={room}
             currPlayer={currPlayer}

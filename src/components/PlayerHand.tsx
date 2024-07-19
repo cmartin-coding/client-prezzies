@@ -15,12 +15,15 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { playerActions } from "../slices/player";
 
 type PlayerHandType = {
   hand: Deck;
 };
 export function PlayerHand(props: PlayerHandType) {
   const [hand, setHand] = useState(props.hand);
+  const dispatch = useDispatch();
   const sensors = useSensors(
     useSensor(PointerSensor, {
       // Allows making them clickable as well
@@ -40,6 +43,7 @@ export function PlayerHand(props: PlayerHandType) {
 
       const alteredHand = arrayMove(hand, oldIndex, newIndex);
       setHand(alteredHand);
+      dispatch(playerActions.updateHand(alteredHand));
     }
   };
 
@@ -50,7 +54,7 @@ export function PlayerHand(props: PlayerHandType) {
       collisionDetection={closestCenter}
     >
       <SortableContext items={hand} strategy={horizontalListSortingStrategy}>
-        <div className="flex gap-1 flex-row  overflow-x-scroll md:overflow-x-auto">
+        <div className="flex gap-1 flex-row flex-wrap justify-center overflow-x-scroll md:overflow-x-auto">
           {hand.map((card) => (
             <PlayingCard card={card} key={card.id} className={``} />
           ))}

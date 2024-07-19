@@ -5,6 +5,7 @@ import { Lobby } from "./Pages/Lobby";
 import { store } from "./store";
 import { SocketProvider } from "./context/SocketContext";
 import { Toaster } from "react-hot-toast";
+import { CardTable } from "./Pages/CardTable";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ const SocketWrapper = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lobby/:roomID" element={<Lobby />} />
-        {/* <Route path="/game-board/:roomID" element={<GameBoard />} /> */}
+        <Route path="/card-table/:roomID" element={<CardTable />} />
       </Routes>
     </SocketProvider>
   );

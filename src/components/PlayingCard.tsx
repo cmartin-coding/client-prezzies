@@ -7,6 +7,7 @@ import { suitIcons } from "../const";
 type PlayingCardType = {
   card: Card;
   className?: string;
+
   size?: number;
   onClickCard?: () => void;
 };
@@ -27,14 +28,12 @@ export function PlayingCard(props: PlayingCardType) {
 
   return (
     <div
-      className={` border touch-none border-black min-w-14 min-h-20 md:w-24 md:h-36 bg-white rounded-md relative `}
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      onClick={() => {
-        console.log(props.card.card);
-      }}
+      onClick={() => {}}
+      className={` border touch-none border-black min-w-14 min-h-20 md:w-24 md:h-36 bg-white rounded-md relative ${props.className}`}
     >
       <div className={`flex px-1 flex-col items-center w-min`}>
         <p className={`font-bold text-[10px] md:text-sm ${textColor}`}>
