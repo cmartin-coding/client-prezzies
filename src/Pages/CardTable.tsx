@@ -14,12 +14,25 @@ export function CardTable() {
       <div className={`flex-1 p-4 flex  flex-col`}>
         <div className={`grid grid-flow-col basis-1/5`}>
           {opponents.map((opponent) => {
+            const cards = [];
+            for (let i = 0; i < opponent.numberOfCardsInHand; i++) {
+              cards.push(i);
+            }
             return (
               <div
                 key={opponent.id}
-                className={`flex flex-col border p-2 rounded-lg`}
+                className={`flex flex-col border border-black bg-white p-2 rounded-lg`}
               >
                 <p>{opponent.name}</p>
+                <p>Total Wins: {opponent.wins}</p>
+                <div className={`flex flex-row gap-2 flex-wrap`}>
+                  {cards.map((c) => (
+                    <div
+                      key={c}
+                      className={`w-16 h-28 border rounded-md bg-blue-300`}
+                    />
+                  ))}
+                </div>
               </div>
             );
           })}
@@ -38,7 +51,7 @@ export function CardTable() {
                 const rotate = `rotate-[${10 * ix}deg]`;
                 return (
                   <div key={card.id} className={`absolute ${rotate} `}>
-                    <PlayingCard card={card} />
+                    <PlayingCard card={card} className={`cursor-default`} />
                   </div>
                 );
               })}

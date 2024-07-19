@@ -25,7 +25,7 @@ export function PlayingCard(props: PlayingCardType) {
   const textColor =
     props.card.color === "black" ? "text-black" : "text-red-500";
   const Icon = suitIcons[props.card.suit];
-
+  console.log(props.className);
   return (
     <div
       ref={setNodeRef}
@@ -33,7 +33,7 @@ export function PlayingCard(props: PlayingCardType) {
       {...attributes}
       {...listeners}
       onClick={() => {}}
-      className={` border touch-none border-black min-w-14 min-h-20 md:w-24 md:h-36 bg-white rounded-md relative ${props.className}`}
+      className={`border  touch-none border-black min-w-14 min-h-20 md:w-24 md:h-36 bg-white rounded-md relative ${props.className}`}
     >
       <div className={`flex px-1 flex-col items-center w-min`}>
         <p className={`font-bold text-[10px] md:text-sm ${textColor}`}>

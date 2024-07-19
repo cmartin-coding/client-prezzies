@@ -31,7 +31,7 @@ export function Lobby() {
   }, 0);
 
   // const allPlayersReady = totalReadyPlayers === room.numberOfPlayers;
-  const allPlayersReady = totalReadyPlayers === 1;
+  const allPlayersReady = totalReadyPlayers === room.players.length;
 
   useEffect(() => {
     // Once all players ready start a timer that counts down and starts the game sending each player to gameboard

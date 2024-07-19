@@ -20,6 +20,7 @@ import { playerActions } from "../slices/player";
 
 type PlayerHandType = {
   hand: Deck;
+  useDefaultCursorOnCards?: boolean;
 };
 export function PlayerHand(props: PlayerHandType) {
   const [hand, setHand] = useState(props.hand);
