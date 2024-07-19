@@ -3,6 +3,7 @@ import { PlayerHand } from "../components/PlayerHand";
 import { useAppSelector } from "../hooks";
 
 import { PlayingCard } from "../components/PlayingCard";
+import { PrezziesButton } from "../components/PrezziesButton";
 
 export function CardTable() {
   const room = useAppSelector((state) => state.room);
@@ -11,13 +12,11 @@ export function CardTable() {
   const opponents = room.players.filter((p) => p.id !== player.id);
   return (
     <Container containerStyle="flex flex-col">
-      <div className={`flex-1 p-2 flex  flex-col`}>
-        <div className={`grid grid-flow-col gap-4 `}>
+      <div className={`flex-1 p-2 flex flex-col`}>
+        <div
+          className={`grid grid-flow-col  md:gap-4 overflow-x-scroll md:overflow-x-auto`}
+        >
           {opponents.map((opponent) => {
-            const cards = [];
-            for (let i = 0; i < opponent.numberOfCardsInHand; i++) {
-              cards.push(i);
-            }
             return (
               <div
                 key={opponent.id}
@@ -26,14 +25,6 @@ export function CardTable() {
                 {!room.isFirstGame && <p>{opponent.position}</p>}
                 <p>{opponent.name}</p>
                 <p>Total Wins: {opponent.wins}</p>
-                <div className={`flex flex-row gap-2 flex-wrap`}>
-                  {cards.map((c) => (
-                    <div
-                      key={c}
-                      className={`h-10 w-7 border rounded-md bg-blue-300`}
-                    />
-                  ))}
-                </div>
               </div>
             );
           })}
@@ -43,12 +34,12 @@ export function CardTable() {
           className={`flex-1 flex overflow-hidden flex-col items-center justify-center`}
         >
           <div
-            className={`flex flex-col relative  justify-center border-2 border-black  rounded-[90%]  bg-gradient-to-br from-[#562B00] via-[#884400] to-[#562B00] w-[70%] h-[70%]`}
+            className={`flex flex-col relative  justify-center border-2 border-black  rounded-[100%]  bg-gradient-to-br from-[#562B00] via-[#884400] to-[#562B00] w-[26rem] h-[26rem]`}
           >
             <div
-              className={`flex flex-row -skew-x-[150deg] -rotate-[30deg] justify-center items-center`}
+              className={`flex flex-row  -rotate-[20deg] justify-center items-center`}
             >
-              {player.hand.map((card, ix) => {
+              {room.cardsPlayed.map((card, ix) => {
                 const rotate = `rotate-[${10 * ix}deg]`;
                 return (
                   <div key={card.id} className={`absolute ${rotate} `}>
@@ -61,10 +52,29 @@ export function CardTable() {
         </div>
 
         {/* The current user */}
-        <div className={`flex self-center  flex-col`}>
-          <p className={`font-bold text-lg text-green-500`}>{player.name}</p>
-          <p>Total wins: {player.wins}</p>
-          {!room.isFirstGame && <p>Current position: {player.position}</p>}
+
+        <div className={`flex self-center flex-col mb-4`}>
+          <div className={`flex flex-row  relative`}>
+            <div>
+              <p className={`font-bold text-lg text-green-500`}>
+                {player.name}
+              </p>
+              <p>Total wins: {player.wins}</p>
+              {!room.isFirstGame && <p>Current position: {player.position}</p>}
+            </div>
+
+            <div
+              className={`flex flex-row bottom-[50%] left-[50%] -translate-x-1/2 translate-y-1/2 gap-2 absolute`}
+            >
+              <PrezziesButton className={`p-1 rounded-md bg-white`}>
+                Play hand
+              </PrezziesButton>
+              <PrezziesButton className={`bg-white rounded-md`}>
+                Completed It
+              </PrezziesButton>
+            </div>
+          </div>
+
           <PlayerHand hand={player.hand} />
         </div>
       </div>

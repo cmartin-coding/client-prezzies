@@ -7,6 +7,7 @@ import { useAppSelector } from "../hooks";
 
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
+import { getSortedHandByPoints } from "../helpers";
 
 export function Lobby() {
   const room = useAppSelector((state) => state.room);
@@ -14,13 +15,7 @@ export function Lobby() {
   const navigate = useNavigate();
   const [seconds, setSeconds] = useState(5);
   const [showCountdown, setShowCountdown] = useState(false);
-  const sortedHand = [...currPlayer.hand].sort((a, b) => {
-    if (a.suitPoints !== b.suitPoints) {
-      return a.suitPoints - b.suitPoints;
-    } else {
-      return a.points - b.points;
-    }
-  });
+  const sortedHand = getSortedHandByPoints(currPlayer.hand);
 
   const totalReadyPlayers = room.players.reduce((prev, acc) => {
     if (acc.isReady) {

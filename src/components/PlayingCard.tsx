@@ -25,7 +25,6 @@ export function PlayingCard(props: PlayingCardType) {
   const textColor =
     props.card.color === "black" ? "text-black" : "text-red-500";
   const Icon = suitIcons[props.card.suit];
-  console.log(props.className);
   return (
     <div
       ref={setNodeRef}

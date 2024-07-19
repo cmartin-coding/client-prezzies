@@ -21,12 +21,16 @@ export type Room = {
   turnCounter: number;
   cardsPlayed: Card[];
   gameIsOver: boolean;
+  currentTurnIndex: number;
+  currentTurnPlayerId: string;
   lastHand: Card[];
 };
 
 const initialState: Room = {
   id: "",
   room: "",
+  currentTurnIndex: 0,
+  currentTurnPlayerId: "",
   shareableRoomCode: "",
   players: [],
   handsToChoose: [],
