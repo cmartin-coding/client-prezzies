@@ -7,9 +7,10 @@ import { suitIcons } from "../const";
 type PlayingCardType = {
   card: Card;
   className?: string;
-
+  isSelected?: boolean;
+  canBeSelected?: boolean;
   size?: number;
-  onClickCard?: () => void;
+  onClickCard?: (card: Card) => void;
 };
 
 export function PlayingCard(props: PlayingCardType) {
@@ -25,14 +26,29 @@ export function PlayingCard(props: PlayingCardType) {
   const textColor =
     props.card.color === "black" ? "text-black" : "text-red-500";
   const Icon = suitIcons[props.card.suit];
+
+  let canBeSelected = true;
+  if (props.canBeSelected !== undefined) {
+    canBeSelected = props.canBeSelected;
+  }
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      onClick={() => {}}
-      className={`border  touch-none border-black min-w-14 min-h-20 md:w-24 md:h-36 bg-white rounded-md relative ${props.className}`}
+      onClick={() => {
+        if (props.canBeSelected) {
+          props.onClickCard && props.onClickCard(props.card);
+        }
+      }}
+      className={`border ${props.isSelected ? "bg-teal-100" : "bg-white"} 
+      touch-none ${
+        !canBeSelected && "bg-slate-400/30"
+      } border-black min-w-14 min-h-20 md:w-24 md:h-36  rounded-md relative ${
+        props.className
+      }`}
     >
       <div className={`flex px-1 flex-col items-center w-min`}>
         <p className={`font-bold text-[10px] md:text-sm ${textColor}`}>

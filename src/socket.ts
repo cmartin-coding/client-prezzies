@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import { PlayerState } from "./slices/player";
 import { Room } from "./slices/room";
+import { Card } from "./types";
 
 // "undefined" means the URL will be computed from the `window.location` object
 // const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
@@ -25,6 +26,12 @@ export interface ServerToClientEvents {
     updatedRoom: Room;
     updatedPlayer: PlayerState;
   }) => void;
+  onPlayedHand: (params: {
+    updatedRoom: Room;
+    updatedPlayer: PlayerState;
+  }) => void;
+  onSendErrorMessage: (params: { errorMessage: string }) => void;
+  onBroadcastMessage: (params: { message: string }) => void;
 }
 
 export interface ClientToServerEvents {
@@ -39,4 +46,5 @@ export interface ClientToServerEvents {
     room: Room;
     readyUpStatus: boolean;
   }) => void;
+  playHand: (params: { hand: Card[]; player: PlayerState; room: Room }) => void;
 }

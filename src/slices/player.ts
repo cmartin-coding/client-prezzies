@@ -54,6 +54,9 @@ export const playerSlice = createSlice({
     updateWinCounter: (state) => {
       state.wins++;
     },
+    updatePlayer: (state, action: PayloadAction<PlayerState>) => {
+      return { ...action.payload };
+    },
   },
 });
 

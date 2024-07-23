@@ -3,7 +3,7 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import { Deck } from "../types";
+import { Card, Deck } from "../types";
 import { PlayingCard } from "./PlayingCard";
 import {
   closestCenter,
@@ -14,16 +14,20 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { useState } from "react";
+
 import { useDispatch } from "react-redux";
 import { playerActions } from "../slices/player";
 
 type PlayerHandType = {
   hand: Deck;
   useDefaultCursorOnCards?: boolean;
+  selectedCards?: Card[];
+  onClickCard?: (card: Card) => void;
+  isFirstTurn?: boolean;
 };
 export function PlayerHand(props: PlayerHandType) {
-  const [hand, setHand] = useState(props.hand);
+  // const [hand, setHand] = useState(props.hand);
+
   const dispatch = useDispatch();
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -39,11 +43,11 @@ export function PlayerHand(props: PlayerHandType) {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const oldIndex = hand.findIndex((x) => x.id === active.id);
-      const newIndex = hand.findIndex((x) => x.id === over?.id);
+      const oldIndex = props.hand.findIndex((x) => x.id === active.id);
+      const newIndex = props.hand.findIndex((x) => x.id === over?.id);
 
-      const alteredHand = arrayMove(hand, oldIndex, newIndex);
-      setHand(alteredHand);
+      const alteredHand = arrayMove(props.hand, oldIndex, newIndex);
+
       dispatch(playerActions.updateHand(alteredHand));
     }
   };
@@ -54,11 +58,37 @@ export function PlayerHand(props: PlayerHandType) {
       sensors={sensors}
       collisionDetection={closestCenter}
     >
-      <SortableContext items={hand} strategy={horizontalListSortingStrategy}>
-        <div className="flex gap-1 flex-row flex-wrap justify-center overflow-x-scroll md:overflow-x-auto">
-          {hand.map((card) => (
-            <PlayingCard card={card} key={card.id} className={``} />
-          ))}
+      <SortableContext
+        items={props.hand}
+        strategy={horizontalListSortingStrategy}
+      >
+        <div className="flex gap-1 flex-row  flex-wrap justify-center  md:p-4  overflow-x-scroll md:overflow-x-auto">
+          {props.hand.map((card) => {
+            let isSelected = false;
+            let canBeSelected = true;
+            if (props.selectedCards) {
+              isSelected =
+                props.selectedCards.findIndex((c) => c.id === card.id) >= 0;
+              if (props.selectedCards.length > 0) {
+                canBeSelected = props.selectedCards[0]?.points === card.points;
+              }
+
+              if (props.isFirstTurn) {
+                canBeSelected = card.points + card.suitPoints === 0;
+              }
+            }
+
+            return (
+              <PlayingCard
+                isSelected={isSelected}
+                canBeSelected={canBeSelected}
+                onClickCard={props.onClickCard}
+                card={card}
+                key={card.id}
+                className={``}
+              />
+            );
+          })}
         </div>
       </SortableContext>
     </DndContext>

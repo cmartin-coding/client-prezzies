@@ -32,3 +32,14 @@ export const onReadyUp =
     dispatch(playerActions.updateHand(params.updatedPlayer.hand));
     dispatch(playerActions.readyUp(params.updatedPlayer.isReady));
   };
+
+export const onPlayedHand =
+  (dispatch: Dispatch<UnknownAction>) =>
+  (params: { updatedRoom: Room; updatedPlayer: PlayerState }) => {
+    dispatch(roomActions.updateRoom(params.updatedRoom));
+    dispatch(playerActions.updatePlayer(params.updatedPlayer));
+  };
+
+export const onBroadCast = () => (params: { message: string }) => {
+  console.log(params.message);
+};
