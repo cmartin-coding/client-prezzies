@@ -47,7 +47,7 @@ export const SocketProvider = ({
 
     // HANDLING GAME LOGIC
     const handleOnPlayedHand = onPlayedHand(dispatch);
-    const handleOnBroadcast = onBroadCast();
+    const handleOnBroadcast = onBroadCast(dispatch);
 
     socket.on("onPlayedHand", handleOnPlayedHand);
     socket.on("onBroadcastMessage", handleOnBroadcast);
@@ -56,6 +56,9 @@ export const SocketProvider = ({
       socket.off("onCreatedRoom", handleCreateRoom);
       socket.off("onJoinedRoom", handleJoinRoom);
       socket.off("onUpdateRoom", handleUpdateRoom);
+      socket.off("onBroadcastMessage", handleOnBroadcast);
+      socket.off("onPlayedHand", handleOnPlayedHand);
+      socket.off("onReadyUp", handleReadyUp);
     };
   }, []);
 

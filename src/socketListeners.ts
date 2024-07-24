@@ -40,6 +40,7 @@ export const onPlayedHand =
     dispatch(playerActions.updatePlayer(params.updatedPlayer));
   };
 
-export const onBroadCast = () => (params: { message: string }) => {
-  console.log(params.message);
-};
+export const onBroadCast =
+  (dispatch: Dispatch<UnknownAction>) => (params: { message: string }) => {
+    dispatch(roomActions.addMessage(params.message));
+  };

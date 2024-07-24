@@ -2,7 +2,8 @@ import { Card } from "../types";
 
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
-import { suitIcons } from "../const";
+// import { suitIcons } from "../const";
+import { PlayingCardSVG } from "./PlayingCardSVG";
 
 type PlayingCardType = {
   card: Card;
@@ -22,16 +23,16 @@ export function PlayingCard(props: PlayingCardType) {
     transition,
   };
 
-  const fillColor = props.card.color === "black" ? `black` : "red";
-  const textColor =
-    props.card.color === "black" ? "text-black" : "text-red-500";
-  const Icon = suitIcons[props.card.suit];
+  // const fillColor = props.card.color === "black" ? `black` : "red";
+  // const textColor =
+  //   props.card.color === "black" ? "text-black" : "text-red-500";
+  // const Icon = suitIcons[props.card.suit];
 
   let canBeSelected = true;
   if (props.canBeSelected !== undefined) {
     canBeSelected = props.canBeSelected;
   }
-
+  console.log(props.className);
   return (
     <div
       ref={setNodeRef}
@@ -43,33 +44,16 @@ export function PlayingCard(props: PlayingCardType) {
           props.onClickCard && props.onClickCard(props.card);
         }
       }}
-      className={`border ${props.isSelected ? "bg-teal-100" : "bg-white"} 
-      touch-none ${
-        !canBeSelected && "bg-slate-400/30"
-      } border-black min-w-14 min-h-20 md:w-24 md:h-36  rounded-md relative ${
-        props.className
-      }`}
+      className={` ${!canBeSelected && "cursor-default"}
+      touch-none   relative ${props.className}`}
     >
-      <div className={`flex px-1 flex-col items-center w-min`}>
-        <p className={`font-bold text-[10px] md:text-sm ${textColor}`}>
-          {props.card.card}
-        </p>
-        <Icon className={` md:size-4 size-2`} fill={fillColor} />
-      </div>
-      <Icon
-        className={`absolute size-3 md:size-6 top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2`}
-        fill={fillColor}
+      <PlayingCardSVG
+        cardName={props.card.card}
+        suitName={props.card.suit}
+        fillstyle={` 
+        ${props.isSelected ? "fill-teal-100" : "fill-white"} 
+        ${!canBeSelected && "fill-slate-300"}`}
       />
-      <div
-        className={`flex px-1 absolute bottom-1 right-1 flex-col-reverse items-center w-min`}
-      >
-        <p
-          className={`font-bold text-[10px] rotate-180 md:text-sm ${textColor}`}
-        >
-          {props.card.card}
-        </p>
-        <Icon className={`md:size-4 size-2`} fill={fillColor} />
-      </div>
     </div>
   );
 }

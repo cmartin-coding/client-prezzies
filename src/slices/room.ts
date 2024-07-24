@@ -24,6 +24,7 @@ export type Room = {
   currentTurnIndex: number;
   currentTurnPlayerId: string;
   lastHand: Card[];
+  messages: string[];
 };
 
 const initialState: Room = {
@@ -40,6 +41,7 @@ const initialState: Room = {
   cardsPlayed: [],
   gameIsOver: false,
   lastHand: [],
+  messages: [],
 };
 
 export const roomSlice = createSlice({
@@ -51,6 +53,9 @@ export const roomSlice = createSlice({
     },
     addPlayerToRoom: (state, action: PayloadAction<AdjustedPlayer>) => {
       state.players.push(action.payload);
+    },
+    addMessage: (state, action: PayloadAction<string>) => {
+      state.messages.push(action.payload);
     },
   },
 });

@@ -62,7 +62,7 @@ export function PlayerHand(props: PlayerHandType) {
         items={props.hand}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="flex gap-1 flex-row  flex-wrap justify-center  md:p-4  overflow-x-scroll md:overflow-x-auto">
+        <div className="flex gap-1 flex-row   ">
           {props.hand.map((card) => {
             let isSelected = false;
             let canBeSelected = true;
@@ -85,7 +85,6 @@ export function PlayerHand(props: PlayerHandType) {
                 onClickCard={props.onClickCard}
                 card={card}
                 key={card.id}
-                className={``}
               />
             );
           })}
