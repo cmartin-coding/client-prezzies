@@ -16,12 +16,25 @@ type PlayingCardType = {
 };
 
 export function PlayingCard(props: PlayingCardType) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: props.card.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: props.card.id });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    // @ts-expect-error dnd kit customization
+    transform: CSS.Transform.toString({
+      ...transform,
+
+      scaleX: isDragging ? 0.8 : 1,
+      scaleY: isDragging ? 0.8 : 1,
+    }),
     transition,
+    zIndex: isDragging ? 1000 : "auto",
   };
 
   // const fillColor = props.card.color === "black" ? `black` : "red";
@@ -33,6 +46,7 @@ export function PlayingCard(props: PlayingCardType) {
   if (props.canBeSelected !== undefined) {
     canBeSelected = props.canBeSelected;
   }
+
   return (
     <div
       ref={setNodeRef}
@@ -49,10 +63,10 @@ export function PlayingCard(props: PlayingCardType) {
     >
       <PlayingCardSVG
         cardname={props.card.card}
-        className={` bg-white ${props.isSelected && "-translate-y-4"}`}
+        className={` bg-white ${!props.canBeSelected && "bg-gray-400"} ${
+          props.isSelected && "-translate-y-4 bg-teal-300"
+        }`}
         suitname={props.card.suit}
-        fillstyle={` ${props.isSelected ? "fill-teal-300" : "fill-white"} 
-        ${!canBeSelected && "fill-gray-400"}`}
       />
     </div>
   );

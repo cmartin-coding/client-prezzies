@@ -9,6 +9,7 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
+  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -17,7 +18,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { playerActions } from "../slices/player";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type PlayerHandType = {
   hand: Deck;
@@ -30,10 +31,11 @@ export function PlayerHand(props: PlayerHandType) {
   // const [hand, setHand] = useState(props.hand);
   const initialWindowWidth = window.innerWidth;
   const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
-  const isTabletWidth = windowWidth >= 768 && windowWidth <= 950;
   const isMediumWidth = windowWidth > 1000;
 
-  useLayoutEffect(() => {
+  const [activeId, setActiveId] = useState<null | string>(null);
+
+  useEffect(() => {
     const updateWindowSize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -52,9 +54,13 @@ export function PlayerHand(props: PlayerHandType) {
     useSensor(KeyboardSensor)
   );
 
+  const handleDragStart = (ev: DragStartEvent) => {
+    const { active } = ev;
+    setActiveId(active?.id as string);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-
     if (active.id !== over?.id) {
       const oldIndex = props.hand.findIndex((x) => x.id === active.id);
       const newIndex = props.hand.findIndex((x) => x.id === over?.id);
@@ -63,11 +69,13 @@ export function PlayerHand(props: PlayerHandType) {
 
       dispatch(playerActions.updateHand(alteredHand));
     }
+    setActiveId(null);
   };
 
   return (
     <DndContext
       onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
       sensors={sensors}
       collisionDetection={closestCenter}
     >
@@ -76,11 +84,11 @@ export function PlayerHand(props: PlayerHandType) {
         strategy={horizontalListSortingStrategy}
       >
         <div
-          className={`flex flex-row gap-1  justify-center   ${
+          className={`flex overflow-hidden flex-row gap-1  justify-center   ${
             isMediumWidth ? "flex-nowrap" : "flex-wrap"
           }`}
         >
-          {props.hand.map((card) => {
+          {props.hand.map((card, ix) => {
             let isSelected = false;
             let canBeSelected = true;
             if (props.selectedCards) {
@@ -96,14 +104,19 @@ export function PlayerHand(props: PlayerHandType) {
             }
 
             return (
-              <PlayingCard
-                isSelected={isSelected}
-                canBeSelected={canBeSelected}
-                onClickCard={props.onClickCard}
-                card={card}
-                className={`
-                w-[12%]`}
-              />
+              <div
+                key={card.id}
+                className={`w-[12%] pt-4 ${
+                  activeId === card.id ? "z-[9999]" : "z-[10]"
+                } ${isMediumWidth && ix > 0 && "-ml-20"} `}
+              >
+                <PlayingCard
+                  isSelected={isSelected}
+                  canBeSelected={canBeSelected}
+                  onClickCard={props.onClickCard}
+                  card={card}
+                />
+              </div>
             );
           })}
         </div>

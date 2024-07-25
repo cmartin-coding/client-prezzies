@@ -1,4 +1,4 @@
-import { SVGProps, useEffect } from "react";
+import { SVGProps } from "react";
 import { Suits } from "../types";
 
 export type SVGPlayingCardType = {
@@ -27,13 +27,13 @@ export function PlayingCardSVG(props: SVGPlayingCardType) {
       height={"100%"}
     >
       {/* Card background */}
-      <rect
+      {/* <rect
         className={`fill-white    ${props.fillstyle}`}
         x="0"
         y="0"
         width="100%"
         height="100%"
-      ></rect>
+      ></rect> */}
 
       {/* Top-left rank and suit */}
       <foreignObject x="0" y="0" width={"100%"} height={"100%"}>

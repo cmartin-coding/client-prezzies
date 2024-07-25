@@ -1,6 +1,8 @@
+import { GiCardPlay, GiCardRandom } from "react-icons/gi";
 import { Card } from "../types";
 import { PlayerHand } from "./PlayerHand";
 import { PrezziesButton } from "./PrezziesButton";
+import { AiFillCloseCircle } from "react-icons/ai";
 type CardTablePlayerHandProps = {
   playerHand: Card[];
   selectedCards: Card[];
@@ -15,19 +17,27 @@ export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
     <div className={`flex  flex-col  gap-3`}>
       <div className={`flex flex-row gap-2 justify-center md:justify-end`}>
         <PrezziesButton
+          buttonStyle="Primary"
+          buttonText="Play Hand"
+          icon={<GiCardRandom size={30} />}
           disabled={props.selectedCards.length === 0}
           onClick={props.onPlayHand}
           className={`p-1  rounded-md disabled:bg-gray-400`}
-        >
-          Play Hand
-        </PrezziesButton>
+        />
+
         <PrezziesButton
+          buttonStyle="Secondary"
           disabled={props.selectedCards.length === 0}
           className={`p-1  rounded-md`}
-        >
-          Completed It
-        </PrezziesButton>
-        <PrezziesButton className={`p-1  rounded-md`}>Pass</PrezziesButton>
+          buttonText="Completed It"
+          icon={<GiCardPlay size={30} />}
+        />
+        <PrezziesButton
+          buttonStyle="Tertiary"
+          icon={<AiFillCloseCircle size={30} />}
+          className={`p-1  rounded-md`}
+          buttonText="Pass"
+        />
       </div>
 
       <PlayerHand
