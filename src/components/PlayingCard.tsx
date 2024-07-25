@@ -32,7 +32,6 @@ export function PlayingCard(props: PlayingCardType) {
   if (props.canBeSelected !== undefined) {
     canBeSelected = props.canBeSelected;
   }
-  console.log(props.className);
   return (
     <div
       ref={setNodeRef}

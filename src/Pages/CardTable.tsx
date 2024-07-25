@@ -9,6 +9,7 @@ import { Card } from "../types";
 import { updateSelectedCards } from "../helpers";
 import { socket } from "../socket";
 import { CardTableAndAshTray } from "../components/CardTableAndAshTray";
+import BarStool from "../components/BarStoolSVG";
 
 // import { useDispatch } from "react-redux";
 
@@ -54,9 +55,8 @@ export function CardTable() {
   }, [room.messages]);
 
   return (
-    <Container containerStyle="flex m-2  rounded-md p-2 flex-row justify-center">
-      <div className={`flex-1 p-2 flex flex-col `}>
-        <div className={`grid grid-flow-col  gap-4 `}>
+    <Container containerStyle="flex  rounded-md p-4  flex-col ">
+      {/* <div className={`grid grid-flow-col  gap-4 `}>
           {opponents
             .filter((opp) => opp.id !== player.id)
             .map((opponent) => {
@@ -74,61 +74,64 @@ export function CardTable() {
                 </div>
               );
             })}
-        </div>
-        {/* The card table */}
-        <div className={`flex  relative items-center flex-row gap-4  flex-1 `}>
-          <div
-            className={`flex-1  flex flex-col gap-4 my-4 justify-center border rounded-md p-4 bg-blue-100`}
-          >
-            <div className={`flex flex-col  items-center justify-center`}>
-              <p className={` text-center text-xl`}>It is</p>
-              <p className={`text-3xl font-bold`}>
-                {currentTurnPlayer?.id === player.id
-                  ? `Your Turn`
-                  : `${currentTurnPlayer?.name}'s turn`}
-              </p>
-            </div>
-            <div className={`flex flex-row justify-center`}>
-              <div
-                className={`flex border border-black rounded-lg  min-w-[50%] bg-white  w-min p-4 flex-col items-center`}
-              >
-                <p className={`text-lg font-bold`}>Last hand played</p>
-                <div className={`flex flex-row gap-1 w-full`}>
-                  {[player.hand[0], player.hand[1]].map((card) => (
-                    <PlayingCard
-                      card={card}
-                      key={card.id}
-                      className="cursor-default"
-                    />
-                  ))}
-                </div>
+        </div> */}
+      {/* The card table */}
+      <div className={`flex  relative   flex-row   flex-1 `}>
+        <div className={`flex-1  flex flex-col gap-4 my-4 justify-center `}>
+          <div className={`flex flex-row justify-center`}>
+            <div
+              className={`flex border border-black rounded-lg  min-w-[30%] bg-white  w-min p-4 flex-col items-center`}
+            >
+              <p className={`text-lg font-bold`}>Last hand played</p>
+              <div className={`flex flex-row gap-1`}>
+                {[player.hand[0], player.hand[1]].map((card) => (
+                  <PlayingCard
+                    card={card}
+                    key={card.id}
+                    className="cursor-default"
+                  />
+                ))}
               </div>
             </div>
           </div>
-          <div className={`w-[30%]   h-min  relative`}>
-            <CardTableAndAshTray />
-            <div
-              className={`flex  w-[20%]  flex-row absolute bottom-[50%] left-[50%] -translate-x-1/2 translate-y-1/2 rotate-[20deg] justify-center items-center`}
-            >
-              {player.hand.map((card, ix) => {
-                const rotationDeg = ix * 100;
-                return (
-                  <div
-                    key={card.id}
-                    className={`absolute `}
-                    style={{ transform: `rotate(${rotationDeg}deg)` }}
-                  >
-                    <PlayingCard card={card} className={`cursor-default `} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div className={`flex-1`} />
         </div>
 
-        {/* The current user */}
-        <div className={`flex flex-1 flex-col gap-3`}>
+        <div className={`w-[30%]  self-center  h-min  relative`}>
+          {/* <BarStool /> */}
+
+          <CardTableAndAshTray />
+          <div
+            className={`flex  w-[20%]  flex-row absolute bottom-[50%] left-[50%] -translate-x-1/2 translate-y-1/2 rotate-[20deg] justify-center items-center`}
+          >
+            {player.hand.map((card, ix) => {
+              const rotationDeg = ix * 100;
+              return (
+                <div
+                  key={card.id}
+                  className={`absolute `}
+                  style={{ transform: `rotate(${rotationDeg}deg)` }}
+                >
+                  <PlayingCard card={card} className={`cursor-default `} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className={`flex-1 flex flex-row my-4 justify-center`}>
+          <div className={`flex flex-col items-center  `}>
+            <p className={` text-center text-xl`}>It is</p>
+            <p className={`text-3xl font-bold`}>
+              {currentTurnPlayer?.id === player.id
+                ? `Your Turn`
+                : `${currentTurnPlayer?.name}'s turn`}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* The current user */}
+      <div className={`flex flex-row justify-center`}>
+        <div className={`flex flex-col w-[80%] gap-3`}>
           <div className={`flex flex-row gap-2 justify-end`}>
             <PrezziesButton className={`p-1 bg-white rounded-md`}>
               Play Hand
@@ -140,6 +143,7 @@ export function CardTable() {
               Pass
             </PrezziesButton>
           </div>
+
           <PlayerHand
             hand={player.hand}
             isFirstTurn={isPlayersTurn && room.turnCounter === 0}
@@ -147,7 +151,8 @@ export function CardTable() {
             selectedCards={selectedCards}
           />
         </div>
-        {/* <div className={`flex  mx-4 flex-1 flex-col gap-2 `}>
+      </div>
+      {/* <div className={`flex  mx-4 flex-1 flex-col gap-2 `}>
           <div className={`flex md:flex-row justify-between  `}>
             <div>
               <p className={`font-bold text-lg text-green-500`}>
@@ -199,7 +204,7 @@ export function CardTable() {
             </div>
           </div>
         </div> */}
-      </div>
+
       {/* <div
         ref={containerRef}
         className={`max-h-[100vh] basis-1/4 border-l border-l-black/20 ml-2 h-[100vh] flex flex-col p-3 overflow-y-scroll`}

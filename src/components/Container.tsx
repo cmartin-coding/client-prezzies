@@ -6,7 +6,11 @@ export function Container(props: {
 }) {
   return (
     <div
-      className={`h-[100%] min-h-[100vh] w-[100vw] bg-gradient-to-br from-red-300 via-white to-blue-300   flex flex-col`}
+      className={`h-[100%] min-h-[100vh] max-w-[100%] w-[100vw]  bg-amber-900 flex flex-col
+        
+        
+        `}
+      // bg-gradient-to-br from-red-300 via-white to-blue-300
     >
       <div className={`flex-1 ${props.containerStyle}`}>{props.children}</div>
     </div>

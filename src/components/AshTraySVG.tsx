@@ -1,6 +1,7 @@
 import { SVGProps, useState } from "react";
 export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
   const [isHoveringCig, setIsHoveringCig] = useState(false);
+  const [isHoveringJoint, setIsHoveringJoint] = useState(false);
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2980,6 +2981,19 @@ export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
           transform="translate(35.942 255.682)"
         />
       </g>
+      <rect
+        x="49"
+        y="76"
+        width="13"
+        rx="2"
+        height="80"
+        fill="none"
+        stroke="gold"
+        // strokeWidth={5}
+
+        strokeWidth={isHoveringCig ? 5 : 0}
+        transform="rotate(16.554 202.69 504.497)"
+      />
       <g
         id="cig"
         onMouseEnter={() => {
@@ -2988,6 +3002,7 @@ export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
         onMouseLeave={() => {
           setIsHoveringCig(false);
         }}
+        className={`cursor-pointer`}
         transform="rotate(16.554 202.69 504.497)"
       >
         <rect
@@ -3004,7 +3019,7 @@ export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
           fill="#d2dbed"
           rx={3}
           ry={3}
-          transform="matrix(1 0 0 .41408 48.877 113.627)"
+          transform="matrix(1 0 0 .41408 49.5 113.627)"
         />
         <rect
           width={12.3}
@@ -3066,8 +3081,22 @@ export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
           transform="translate(55.578 79.285)"
         />
       </g>
+      <path
+        fill="none"
+        stroke="gold"
+        strokeWidth={isHoveringJoint ? 9 : 0}
+        d="M60 35 L60 35 L70 109 L50 110 Z"
+        transform="matrix(.3908 -.92047 .7711 .32739 22.82 155.5)"
+      />
       <g
         id="joint"
+        onMouseEnter={() => {
+          setIsHoveringJoint(true);
+        }}
+        onMouseLeave={() => {
+          setIsHoveringJoint(false);
+        }}
+        className={`cursor-pointer`}
         transform="matrix(.3908 -.92047 .7711 .32739 23.82 150.522)"
       >
         <path
@@ -3076,6 +3105,7 @@ export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
           strokeWidth={0.6}
           d="M51.173 40.027h7.6l7.091 69.007-21.277.434 6.586-69.441Z"
         />
+
         <path
           fill="#efb560"
           strokeLinecap="round"
