@@ -5,10 +5,7 @@ type PrezziesButtonType = {
 
 export function PrezziesButton(props: PrezziesButtonType) {
   return (
-    <button
-      {...props}
-      className={`  border border-black rounded-full ${props.className}`}
-    >
+    <button {...props} className={`  rounded-full ${props.className}`}>
       {props.children}
     </button>
   );

@@ -2,10 +2,10 @@ import { Card, Deck } from "./types";
 
 export function getSortedHandByPoints(hand: Deck) {
   const sortedHand = [...hand].sort((a, b) => {
-    if (a.suitPoints !== b.suitPoints) {
-      return a.suitPoints - b.suitPoints;
-    } else {
+    if (a.points !== b.points) {
       return a.points - b.points;
+    } else {
+      return a.suitPoints - b.suitPoints;
     }
   });
   return sortedHand;

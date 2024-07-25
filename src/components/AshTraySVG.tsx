@@ -8,7 +8,10 @@ export const AshTraySVG = (props: SVGProps<SVGSVGElement>) => {
       id="eZKLITOP64S1"
       shapeRendering="geometricPrecision"
       textRendering="geometricPrecision"
-      viewBox="0 0 300 300"
+      viewBox="60 50 170 160"
+      // style={{ transform: "rotateX(45deg)" }}
+      // width="100%"
+      // height="100%"
       {...props}
     >
       <g strokeWidth={1}>

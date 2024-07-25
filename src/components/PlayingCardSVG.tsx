@@ -1,9 +1,9 @@
-import { SVGProps } from "react";
+import { SVGProps, useEffect } from "react";
 import { Suits } from "../types";
 
 export type SVGPlayingCardType = {
-  cardName: string;
-  suitName: Suits;
+  cardname: string;
+  suitname: Suits;
   fillstyle?: string;
 } & SVGProps<SVGSVGElement>;
 export function PlayingCardSVG(props: SVGPlayingCardType) {
@@ -15,34 +15,36 @@ export function PlayingCardSVG(props: SVGPlayingCardType) {
     Spades: { color: "black", symbol: "♠" },
   };
 
-  const { color, symbol } = suits[props.suitName];
+  const { color, symbol } = suits[props.suitname];
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 150"
+      viewBox="0 0 100 140"
+      className={`  ${props.className} `}
       {...props}
       width={"100%"}
       height={"100%"}
-      className={`border border-black rounded-md`}
     >
       {/* Card background */}
       <rect
-        className={`fill-white ${props.fillstyle}`}
+        className={`fill-white    ${props.fillstyle}`}
         x="0"
         y="0"
         width="100%"
         height="100%"
-      />
+      ></rect>
 
       {/* Top-left rank and suit */}
       <foreignObject x="0" y="0" width={"100%"} height={"100%"}>
-        <div className={`flex flex-col justify-between h-full w-full`}>
+        <div
+          className={`flex flex-col border border-black justify-between h-full w-full`}
+        >
           {/* Top left  */}
           <div className={`flex flex-row`}>
             <div className={`flex flex-col items-center m-[4px]`}>
               <span className={`text-sm font-bold`} style={{ color }}>
-                {props.cardName}
+                {props.cardname}
               </span>
               <span className={`text-xl -mt-1`} style={{ color: color }}>
                 {symbol}
@@ -60,7 +62,7 @@ export function PlayingCardSVG(props: SVGPlayingCardType) {
           <div className={`flex flex-row items-end justify-end `}>
             <div className={`flex flex-col items-center rotate-180  m-[4px]`}>
               <span className={`text-sm font-bold`} style={{ color }}>
-                {props.cardName}
+                {props.cardname}
               </span>
               <span className={`text-xl -mt-1`} style={{ color: color }}>
                 {symbol}

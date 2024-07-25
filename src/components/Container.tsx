@@ -6,7 +6,7 @@ export function Container(props: {
 }) {
   return (
     <div
-      className={`h-[100%] min-h-[100vh] max-w-[100%] w-[100vw]  bg-amber-900 flex flex-col
+      className={`h-[100%] min-h-[100vh] max-w-[100%] w-[100vw]  bg-[#e7dec7] flex flex-col
         
         
         `}

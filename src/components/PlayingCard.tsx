@@ -8,6 +8,7 @@ import { PlayingCardSVG } from "./PlayingCardSVG";
 type PlayingCardType = {
   card: Card;
   className?: string;
+  cardclass?: string;
   isSelected?: boolean;
   canBeSelected?: boolean;
   size?: number;
@@ -43,15 +44,15 @@ export function PlayingCard(props: PlayingCardType) {
           props.onClickCard && props.onClickCard(props.card);
         }
       }}
-      className={` ${!canBeSelected && "cursor-default"}
-      touch-none   relative ${props.className}`}
+      className={` ${!canBeSelected && "cursor-default "}
+      touch-none    ${props.className}`}
     >
       <PlayingCardSVG
-        cardName={props.card.card}
-        suitName={props.card.suit}
-        fillstyle={` 
-        ${props.isSelected ? "fill-teal-100" : "fill-white"} 
-        ${!canBeSelected && "fill-slate-300"}`}
+        cardname={props.card.card}
+        className={` bg-white ${props.isSelected && "-translate-y-4"}`}
+        suitname={props.card.suit}
+        fillstyle={` ${props.isSelected ? "fill-teal-300" : "fill-white"} 
+        ${!canBeSelected && "fill-gray-400"}`}
       />
     </div>
   );

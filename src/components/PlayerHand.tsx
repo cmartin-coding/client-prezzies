@@ -17,6 +17,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { playerActions } from "../slices/player";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 type PlayerHandType = {
   hand: Deck;
@@ -27,6 +28,18 @@ type PlayerHandType = {
 };
 export function PlayerHand(props: PlayerHandType) {
   // const [hand, setHand] = useState(props.hand);
+  const initialWindowWidth = window.innerWidth;
+  const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
+  const isTabletWidth = windowWidth >= 768 && windowWidth <= 950;
+  const isMediumWidth = windowWidth > 1000;
+
+  useLayoutEffect(() => {
+    const updateWindowSize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", updateWindowSize);
+    return () => window.removeEventListener("resize", updateWindowSize);
+  }, []);
 
   const dispatch = useDispatch();
   const sensors = useSensors(
@@ -62,7 +75,11 @@ export function PlayerHand(props: PlayerHandType) {
         items={props.hand}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="flex gap-1 flex-row ">
+        <div
+          className={`flex flex-row gap-1  justify-center   ${
+            isMediumWidth ? "flex-nowrap" : "flex-wrap"
+          }`}
+        >
           {props.hand.map((card) => {
             let isSelected = false;
             let canBeSelected = true;
@@ -79,15 +96,14 @@ export function PlayerHand(props: PlayerHandType) {
             }
 
             return (
-              <div>
-                <PlayingCard
-                  isSelected={isSelected}
-                  canBeSelected={canBeSelected}
-                  onClickCard={props.onClickCard}
-                  card={card}
-                  key={card.id}
-                />
-              </div>
+              <PlayingCard
+                isSelected={isSelected}
+                canBeSelected={canBeSelected}
+                onClickCard={props.onClickCard}
+                card={card}
+                className={`
+                w-[12%]`}
+              />
             );
           })}
         </div>
