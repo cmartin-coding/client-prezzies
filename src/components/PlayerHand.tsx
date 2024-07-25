@@ -50,8 +50,8 @@ export function PlayerHand(props: PlayerHandType) {
       activationConstraint: {
         distance: 8,
       },
-    }),
-    useSensor(KeyboardSensor)
+    })
+    // useSensor(KeyboardSensor)
   );
 
   const handleDragStart = (ev: DragStartEvent) => {
