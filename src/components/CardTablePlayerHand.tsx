@@ -13,39 +13,47 @@ type CardTablePlayerHandProps = {
   onCompletedIt: () => void;
 };
 export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
+  const noCardsSelected = props.selectedCards.length === 0;
   return (
-    <div className={`flex  flex-col  gap-3`}>
-      <div className={`flex flex-row gap-2 justify-center md:justify-end`}>
-        <PrezziesButton
-          buttonStyle="Primary"
-          buttonText="Play Hand"
-          icon={<GiCardRandom size={30} />}
-          disabled={props.selectedCards.length === 0}
-          onClick={props.onPlayHand}
-          className={`p-1  rounded-md disabled:bg-gray-400`}
-        />
+    <div className={`flex flex-row justify-center`}>
+      <div
+        className={`flex  flex-col justify-center w-[80%] relative   gap-5  rounded-md`}
+      >
+        <div className={`flex flex-row gap-2 items-center justify-center `}>
+          <PrezziesButton
+            buttonStyle="Primary"
+            buttonText="Play Hand"
+            icon={<GiCardRandom size={30} />}
+            buttonProps={{
+              disabled: noCardsSelected,
+              onClick: props.onPlayHand,
+            }}
+          />
 
-        <PrezziesButton
-          buttonStyle="Secondary"
-          disabled={props.selectedCards.length === 0}
-          className={`p-1  rounded-md`}
-          buttonText="Completed It"
-          icon={<GiCardPlay size={30} />}
-        />
-        <PrezziesButton
-          buttonStyle="Tertiary"
-          icon={<AiFillCloseCircle size={30} />}
-          className={`p-1  rounded-md`}
-          buttonText="Pass"
-        />
+          <PrezziesButton
+            buttonStyle="Secondary"
+            buttonProps={{ disabled: noCardsSelected }}
+            // className={`w-full`}
+
+            buttonText="Completed It"
+            icon={<GiCardPlay size={30} />}
+          />
+          <PrezziesButton
+            buttonStyle="Tertiary"
+            icon={<AiFillCloseCircle size={30} />}
+            // className={`w-full justify-between`}
+            buttonText="Pass"
+          />
+        </div>
+        <div className={``}>
+          <PlayerHand
+            hand={props.playerHand}
+            isFirstTurn={props.isGoingFirst}
+            onClickCard={props.onClickCard}
+            selectedCards={props.selectedCards}
+          />
+        </div>
       </div>
-
-      <PlayerHand
-        hand={props.playerHand}
-        isFirstTurn={props.isGoingFirst}
-        onClickCard={props.onClickCard}
-        selectedCards={props.selectedCards}
-      />
     </div>
   );
 }

@@ -84,7 +84,7 @@ export function PlayerHand(props: PlayerHandType) {
         strategy={horizontalListSortingStrategy}
       >
         <div
-          className={`flex overflow-hidden flex-row gap-1  justify-center   ${
+          className={`flex  flex-row gap-1  justify-center   ${
             isMediumWidth ? "flex-nowrap" : "flex-wrap"
           }`}
         >
@@ -97,7 +97,6 @@ export function PlayerHand(props: PlayerHandType) {
               if (props.selectedCards.length > 0) {
                 canBeSelected = props.selectedCards[0]?.points === card.points;
               }
-
               if (props.isFirstTurn) {
                 canBeSelected = card.points + card.suitPoints === 0;
               }
@@ -106,9 +105,9 @@ export function PlayerHand(props: PlayerHandType) {
             return (
               <div
                 key={card.id}
-                className={`w-[12%] pt-4 ${
+                className={`w-[12%] ${
                   activeId === card.id ? "z-[9999]" : "z-[10]"
-                } ${isMediumWidth && ix > 0 && "-ml-20"} `}
+                } ${isMediumWidth && "-ml-20 "} `}
               >
                 <PlayingCard
                   isSelected={isSelected}

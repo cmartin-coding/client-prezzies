@@ -52,6 +52,7 @@ export function CardTable() {
         <div
           className={`md:rounded-[100%]  bg-[#412a13] absolute top-10 left-9 right-9 bottom-4`}
         />
+
         <div
           className={`relative flex flex-col gap-3 justify-end flex-1 bg-red-300   md:rounded-[100%] bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00]`}
         >
