@@ -10,7 +10,7 @@ import {
   DndContext,
   DragEndEvent,
   DragStartEvent,
-  KeyboardSensor,
+  // KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -32,6 +32,7 @@ export function PlayerHand(props: PlayerHandType) {
   const initialWindowWidth = window.innerWidth;
   const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
   const isMediumWidth = windowWidth > 1000;
+  const isTablet = windowWidth > 600 && windowWidth < 1000;
 
   const [activeId, setActiveId] = useState<null | string>(null);
 
@@ -84,8 +85,8 @@ export function PlayerHand(props: PlayerHandType) {
         strategy={horizontalListSortingStrategy}
       >
         <div
-          className={`flex  flex-row gap-1  justify-center   ${
-            isMediumWidth ? "flex-nowrap" : "flex-wrap"
+          className={`flex  flex-row gap-1 flex-wrap justify-center   ${
+            isMediumWidth && "flex-nowrap"
           }`}
         >
           {props.hand.map((card, ix) => {
@@ -105,9 +106,13 @@ export function PlayerHand(props: PlayerHandType) {
             return (
               <div
                 key={card.id}
-                className={`w-[12%] ${
-                  activeId === card.id ? "z-[9999]" : "z-[10]"
-                } ${isMediumWidth && "-ml-20 "} `}
+                className={`${!isTablet && !isMediumWidth && "w-[50px]"} ${
+                  isTablet && "w-[70px]"
+                } ${isMediumWidth && "w-[125px]"} 
+                  lg:w-[360px]
+                ${activeId === card.id ? "z-[9999]" : "z-[10]"} ${
+                  isMediumWidth && "-ml-12 "
+                } `}
               >
                 <PlayingCard
                   isSelected={isSelected}

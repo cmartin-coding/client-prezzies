@@ -2,12 +2,13 @@ import { Container } from "../components/Container";
 
 import { useAppSelector } from "../hooks";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../types";
 import { updateSelectedCards } from "../helpers";
 import { socket } from "../socket";
 import { AshTraySVG } from "../components/AshTraySVG";
 import { CardTablePlayerHand } from "../components/CardTablePlayerHand";
+import { PlayingCard } from "../components/PlayingCard";
 
 // import { useDispatch } from "react-redux";
 
@@ -45,22 +46,54 @@ export function CardTable() {
   const currentTurnPlayer = room.players.find(
     (p) => p.id === room.currentTurnPlayerId
   );
+  const initialWindowWidth = window.innerWidth;
+  const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
+  const isMediumWidth = windowWidth > 500;
+  useEffect(() => {
+    const updateWindowSize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", updateWindowSize);
+    return () => window.removeEventListener("resize", updateWindowSize);
+  }, []);
 
+  console.log(windowWidth);
   return (
     <Container containerStyle="flex relative rounded-md  flex-col ">
-      <div className={`flex flex-col  flex-1 md:p-10`}>
+      <div className={`flex flex-col  flex-1 md:m-10`}>
         <div
           className={`md:rounded-[100%]  bg-[#412a13] absolute top-10 left-9 right-9 bottom-4`}
         />
 
         <div
-          className={`relative flex flex-col gap-3 justify-end flex-1 bg-red-300   md:rounded-[100%] bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00]`}
+          className={`relative flex flex-col gap-3  flex-1  justify-center  md:rounded-[100%] bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00]`}
         >
           <AshTraySVG
             className={`absolute size-24 md:size-40 bottom-[40%] md:left-[5%]`}
           />
 
-          <div className={` absolute md:-bottom-8 bottom-5 rounded-md  `}>
+          <div
+            className={` flex absolute w-full top-[45%]  flex-row justify-center items-center `}
+          >
+            {player.hand.map((card, ix) => {
+              const rotate = ix * 27.12;
+              return (
+                <div
+                  key={card.id}
+                  id={card.id}
+                  className={`absolute ${
+                    isMediumWidth ? "w-[120px]" : " w-[100px]"
+                  } `}
+                  style={{
+                    transform: `rotate(${rotate}deg)`,
+                  }}
+                >
+                  <PlayingCard card={card} className={`cursor-default`} />
+                </div>
+              );
+            })}
+          </div>
+          <div className={`w-full absolute md:-bottom-8 bottom-5 rounded-md  `}>
             <CardTablePlayerHand
               isGoingFirst={isPlayersTurn && room.turnCounter === 0}
               onCompletedIt={() => {}}
@@ -81,8 +114,6 @@ export function CardTable() {
           </div>
         </div>
       </div>
-
-      {/* The current user */}
     </Container>
   );
 }

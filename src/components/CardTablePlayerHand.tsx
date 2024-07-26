@@ -17,12 +17,15 @@ export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
   return (
     <div className={`flex flex-row justify-center`}>
       <div
-        className={`flex  flex-col justify-center w-[80%] relative   gap-5  rounded-md`}
+        className={`flex  flex-col justify-center md:w-[80%] relative   gap-5  rounded-md`}
       >
-        <div className={`flex flex-row gap-2 items-center justify-center `}>
+        <div
+          className={`flex flex-row gap-2 mb-2 items-center justify-center `}
+        >
           <PrezziesButton
             buttonStyle="Primary"
             buttonText="Play Hand"
+            customBtnStyle="disabled:bg-gray-500 transform-all duration-300 ease-in-out disabled:opacity-[.7]"
             icon={<GiCardRandom size={30} />}
             buttonProps={{
               disabled: noCardsSelected,
@@ -32,6 +35,7 @@ export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
 
           <PrezziesButton
             buttonStyle="Secondary"
+            customBtnStyle="disabled:bg-gray-500 disabled:opacity-[.7] transform-all duration-300 ease-in-out disabled:ring-0"
             buttonProps={{ disabled: noCardsSelected }}
             // className={`w-full`}
 
