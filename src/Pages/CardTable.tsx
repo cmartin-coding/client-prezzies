@@ -57,7 +57,13 @@ export function CardTable() {
     return () => window.removeEventListener("resize", updateWindowSize);
   }, []);
 
-  console.log(windowWidth);
+  const numberOfCardsInLastMove = 3;
+  // room.lastHand.length;
+  const cardsPlayed = player.hand;
+  // [
+  //   ...room.cardsPlayed.slice(0, -numberOfCardsInLastMove),
+  //   ...room.lastHand,
+  // ];
   return (
     <Container containerStyle="flex relative rounded-md  flex-col ">
       <div className={`flex flex-col  flex-1 md:m-10`}>
@@ -73,19 +79,21 @@ export function CardTable() {
           />
 
           <div
-            className={` flex absolute w-full top-[45%]  flex-row justify-center items-center `}
+            className={` flex absolute w-full  top-[45%] -translate-y-1/2 flex-row justify-center items-center `}
           >
             {player.hand.map((card, ix) => {
-              const rotate = ix * 27.12;
+              const rotate = ix * 34;
+              const isLastPlayed =
+                ix > cardsPlayed.length - numberOfCardsInLastMove;
               return (
                 <div
                   key={card.id}
                   id={card.id}
-                  className={`absolute ${
-                    isMediumWidth ? "w-[120px]" : " w-[100px]"
-                  } `}
+                  className={`${
+                    isLastPlayed ? "inline-flex -mx-10" : "absolute"
+                  } ${isMediumWidth ? "w-[120px]" : " w-[100px]"} `}
                   style={{
-                    transform: `rotate(${rotate}deg)`,
+                    transform: !isLastPlayed ? `rotate(${rotate}deg)` : "",
                   }}
                 >
                   <PlayingCard card={card} className={`cursor-default`} />
