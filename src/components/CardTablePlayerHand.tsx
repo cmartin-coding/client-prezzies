@@ -7,6 +7,7 @@ type CardTablePlayerHandProps = {
   playerHand: Card[];
   selectedCards: Card[];
   isGoingFirst: boolean;
+  isTurn: boolean;
   onClickCard: (card: Card) => void;
   onPlayHand: () => void;
   onPass: () => void;
@@ -15,12 +16,19 @@ type CardTablePlayerHandProps = {
 export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
   const noCardsSelected = props.selectedCards.length === 0;
   return (
-    <div className={`flex flex-row justify-center`}>
+    <div className={`flex flex-row relative justify-center`}>
       <div
-        className={`flex  flex-col justify-center md:w-[80%] relative   gap-5  rounded-md`}
+        className={`flex flex-1  flex-col justify-center relative   gap-2  rounded-md`}
       >
+        {props.isTurn && (
+          <p
+            className={`  self-center md:hidden text-lg px-1 rounded-md bg-green-600 w-fit font-bold text-white`}
+          >
+            It is your turn
+          </p>
+        )}
         <div
-          className={`flex flex-row gap-2 mb-2 items-center justify-center `}
+          className={`flex flex-row  relative gap-2 mb-2 items-center justify-center `}
         >
           <PrezziesButton
             buttonStyle="Primary"
@@ -48,6 +56,13 @@ export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
             // className={`w-full justify-between`}
             buttonText="Pass"
           />
+          {props.isTurn && (
+            <p
+              className={` absolute bottom-[50%] translate-y-1/2 right-28 hidden md:block text-lg px-1 rounded-md bg-green-600 w-fit font-bold text-white`}
+            >
+              It is your turn
+            </p>
+          )}
         </div>
         <div className={``}>
           <PlayerHand

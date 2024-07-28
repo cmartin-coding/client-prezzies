@@ -63,9 +63,9 @@ export function PlayingCard(props: PlayingCardType) {
     >
       <PlayingCardSVG
         cardname={props.card.card}
-        className={`transition-all duration-300 ease-in-out bg-white ${
-          !canBeSelected && "bg-gray-400"
-        } ${props.isSelected && "-translate-y-4 "}`}
+        className={`transition-all  duration-300 ease-in-out  ${
+          !canBeSelected ? "bg-gray-400" : "bg-white"
+        } ${props.isSelected && "-translate-y-3 "}`}
         suitname={props.card.suit}
       />
     </div>

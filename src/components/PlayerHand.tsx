@@ -12,13 +12,15 @@ import {
   DragStartEvent,
   // KeyboardSensor,
   PointerSensor,
+  useDroppable,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 
 import { useDispatch } from "react-redux";
 import { playerActions } from "../slices/player";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 
 type PlayerHandType = {
   hand: Deck;
@@ -29,20 +31,20 @@ type PlayerHandType = {
 };
 export function PlayerHand(props: PlayerHandType) {
   // const [hand, setHand] = useState(props.hand);
-  const initialWindowWidth = window.innerWidth;
-  const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
-  const isMediumWidth = windowWidth > 1000;
-  const isTablet = windowWidth > 600 && windowWidth < 1000;
+  // const initialWindowWidth = window.innerWidth;
+  // const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
+  // const isMediumWidth = windowWidth > 1000;
+  // const isTablet = windowWidth > 600 && windowWidth < 1000;
 
   const [activeId, setActiveId] = useState<null | string>(null);
 
-  useEffect(() => {
-    const updateWindowSize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", updateWindowSize);
-    return () => window.removeEventListener("resize", updateWindowSize);
-  }, []);
+  // useEffect(() => {
+  //   const updateWindowSize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //   };
+  //   window.addEventListener("resize", updateWindowSize);
+  //   return () => window.removeEventListener("resize", updateWindowSize);
+  // }, []);
 
   const dispatch = useDispatch();
   const sensors = useSensors(
@@ -72,22 +74,24 @@ export function PlayerHand(props: PlayerHandType) {
     }
     setActiveId(null);
   };
-
+  const { setNodeRef: setFirstDroppableRef } = useDroppable({
+    id: "droppable-1",
+  });
   return (
     <DndContext
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
       sensors={sensors}
       collisionDetection={closestCenter}
+      modifiers={[restrictToWindowEdges]}
     >
       <SortableContext
         items={props.hand}
         strategy={horizontalListSortingStrategy}
       >
         <div
-          className={`flex  flex-row gap-1 flex-wrap justify-center   ${
-            isMediumWidth && "flex-nowrap"
-          }`}
+          ref={setFirstDroppableRef}
+          className={`flex   flex-row gap-1 justify-center flex-1 flex-nowrap `}
         >
           {props.hand.map((card, ix) => {
             let isSelected = false;
@@ -105,14 +109,11 @@ export function PlayerHand(props: PlayerHandType) {
 
             return (
               <div
+                ref={setFirstDroppableRef}
                 key={card.id}
-                className={`${!isTablet && !isMediumWidth && "w-[50px]"} ${
-                  isTablet && "w-[70px]"
-                } ${isMediumWidth && "w-[125px]"} 
-                  lg:w-[360px]
-                ${activeId === card.id ? "z-[9999]" : "z-[10]"} ${
-                  isMediumWidth && "-ml-12 "
-                } `}
+                className={`w-[17%] tablet:w-[25%]  md:w-full md:max-w-[10%]
+                  ${ix > 0 && "-ml-12"}  
+                  ${activeId === card.id ? "z-[9999]" : "z-[10]"} `}
               >
                 <PlayingCard
                   isSelected={isSelected}

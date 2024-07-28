@@ -15,7 +15,6 @@ export function Lobby() {
   const navigate = useNavigate();
   const [seconds, setSeconds] = useState(5);
   const [showCountdown, setShowCountdown] = useState(false);
-  const sortedHand = getSortedHandByPoints(currPlayer.hand);
 
   const totalReadyPlayers = room.players.reduce((prev, acc) => {
     if (acc.isReady) {
@@ -48,8 +47,10 @@ export function Lobby() {
   }, [allPlayersReady, seconds]);
 
   return (
-    <Container containerStyle={`flex flex-col  m-8`}>
-      <div className={`flex flex-col mt-6 justify-between items-center flex-1`}>
+    <Container containerStyle={`flex flex-col  `}>
+      <div
+        className={`flex border flex-col mt-6 m-0  justify-between items-center  flex-1`}
+      >
         <div
           className={`flex flex-col bg-white gap-2 border border-black p-2 rounded-md  w-1/3`}
         >
@@ -85,9 +86,13 @@ export function Lobby() {
             shareableCode={room.shareableRoomCode}
           />
         </div>
-        <div className={`flex items-center flex-col gap-3 my-6`}>
+        <div
+          className={`flex flex-1 p-4   justify-end items-center flex-col gap-3 my-6`}
+        >
           <p className={`font-bold`}>Your hand</p>
-          <PlayerHand hand={sortedHand} />
+          <div className={``}>
+            <PlayerHand hand={currPlayer.hand} />
+          </div>
         </div>
       </div>
     </Container>

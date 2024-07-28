@@ -8,3 +8,13 @@ export type Card = {
 };
 export type Deck = Card[];
 export type Suits = "Clubs" | "Spades" | "Diamonds" | "Hearts";
+export type Positions =
+  | "President"
+  | "Vice President"
+  | "Upper Class"
+  | "Middle Class"
+  | "Lower Middle Class"
+  | "Poor"
+  | "Scum"
+  | "Scummy Scum"
+  | "Undecided";
