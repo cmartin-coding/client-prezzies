@@ -131,7 +131,7 @@ export function CardTable() {
                 id={card.id}
                 className={`${
                   isLastPlayed ? "inline-flex -mx-10" : "absolute"
-                } ${isMediumWidth ? "w-[120px]" : " w-[100px]"} `}
+                } md:w-[120px] tablet:w-[100px] w-[90px]`}
                 style={{
                   transform: !isLastPlayed ? `rotate(${rotate}deg)` : "",
                 }}
@@ -142,7 +142,7 @@ export function CardTable() {
           })}
         </div>
         <div
-          className={`p-4 md:p-0 w-full absolute md:bottom-0  bottom-5 rounded-md  `}
+          className={`p-0  w-full absolute md:bottom-0  bottom-5 rounded-md  `}
         >
           <CardTablePlayerHand
             isGoingFirst={isPlayersTurn && room.turnCounter === 0}

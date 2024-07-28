@@ -111,8 +111,8 @@ export function PlayerHand(props: PlayerHandType) {
               <div
                 ref={setFirstDroppableRef}
                 key={card.id}
-                className={`w-[17%] tablet:w-[25%]  md:w-full md:max-w-[10%]
-                  ${ix > 0 && "-ml-12"}  
+                className={`w-[20%] tablet:w-[25%]  md:w-full md:max-w-[10%]
+                  ${ix > 0 && "md:-ml-12 tablet:-ml-10 -ml-6"}  
                   ${activeId === card.id ? "z-[9999]" : "z-[10]"} `}
               >
                 <PlayingCard
