@@ -13,7 +13,7 @@ export type Positions =
   | "Vice President"
   | "Upper Class"
   | "Middle Class"
-  | "Lower Middle Class"
+  | "Lower Class"
   | "Poor"
   | "Scum"
   | "Scummy Scum"

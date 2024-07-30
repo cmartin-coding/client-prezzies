@@ -7,7 +7,6 @@ import { useAppSelector } from "../hooks";
 
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
-import { getSortedHandByPoints } from "../helpers";
 
 export function Lobby() {
   const room = useAppSelector((state) => state.room);
@@ -49,7 +48,7 @@ export function Lobby() {
   return (
     <Container containerStyle={`flex flex-col  `}>
       <div
-        className={`flex border flex-col mt-6 m-0  justify-between items-center  flex-1`}
+        className={`flex  flex-col mt-6 m-0  justify-between items-center  flex-1`}
       >
         <div
           className={`flex flex-col bg-white gap-2 border border-black p-2 rounded-md  w-1/3`}
@@ -87,7 +86,7 @@ export function Lobby() {
           />
         </div>
         <div
-          className={`flex flex-1 p-4   justify-end items-center flex-col gap-3 my-6`}
+          className={`flex flex-1 p-4   tablet:justify-end items-center flex-col gap-3 my-6`}
         >
           <p className={`font-bold`}>Your hand</p>
           <div className={``}>

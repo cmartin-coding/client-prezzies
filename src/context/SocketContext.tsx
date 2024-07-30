@@ -3,8 +3,10 @@ import { createContext, ReactNode, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   onBroadCast,
+  onCompletedIt,
   onCreatedRoom,
   onJoinRoom,
+  onPassTurn,
   onPlayedHand,
   onReadyUp,
   onUpdateRoom,
@@ -47,10 +49,14 @@ export const SocketProvider = ({
 
     // HANDLING GAME LOGIC
     const handleOnPlayedHand = onPlayedHand(dispatch);
+    const handleOnPassTurn = onPassTurn(dispatch);
+    const handleOnCompletedIt = onCompletedIt(dispatch);
     const handleOnBroadcast = onBroadCast(dispatch);
 
     socket.on("onPlayedHand", handleOnPlayedHand);
+    socket.on("onPassedTurn", handleOnPassTurn);
     socket.on("onBroadcastMessage", handleOnBroadcast);
+    socket.on("onCompletedIt", handleOnCompletedIt);
 
     return () => {
       socket.off("onCreatedRoom", handleCreateRoom);

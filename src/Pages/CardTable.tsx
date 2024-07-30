@@ -2,14 +2,13 @@ import { Container } from "../components/Container";
 
 import { useAppSelector } from "../hooks";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, Positions } from "../types";
 import { updateSelectedCards } from "../helpers";
 import { socket } from "../socket";
 import { AshTraySVG } from "../components/AshTraySVG";
 import { CardTablePlayerHand } from "../components/CardTablePlayerHand";
 import { PlayingCard } from "../components/PlayingCard";
-import { BsPerson } from "react-icons/bs";
 import { positionIcons } from "../const";
 
 export function CardTable() {
@@ -47,24 +46,13 @@ export function CardTable() {
     (p) => p.id === room.currentTurnPlayerId
   );
 
-  const initialWindowWidth = window.innerWidth;
-  const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
-  const isMediumWidth = windowWidth > 500;
-  useEffect(() => {
-    const updateWindowSize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", updateWindowSize);
-    return () => window.removeEventListener("resize", updateWindowSize);
-  }, []);
-
   const numberOfCardsInLastMove = room.lastHand.length;
 
   const cardsPlayed = [
-    ...room.cardsPlayed.slice(0, -(numberOfCardsInLastMove + 1)),
+    ...room.cardsPlayed.slice(0, -numberOfCardsInLastMove),
     ...room.lastHand,
   ];
-
+  console.log(cardsPlayed);
   return (
     <Container containerStyle="flex  rounded-md  flex-col bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00] p-4">
       <div
@@ -72,12 +60,13 @@ export function CardTable() {
       >
         {opponents
           .filter((o) => o.id !== player.id)
-          .map((opp, ix) => {
+          .map((opp) => {
             const isOpponentTurn = opp.id === room.currentTurnPlayerId;
             const Icon =
               positionIcons[(opp.position as Positions) || "Undecided"];
             return (
               <div
+                key={opp.id}
                 className={` flex max-w-fit  flex-col   ${
                   isOpponentTurn && "bg-green-600"
                 } p-2  md:rounded-lg`}
@@ -125,6 +114,7 @@ export function CardTable() {
             const rotate = ix * 34;
             const isLastPlayed =
               ix > cardsPlayed.length - numberOfCardsInLastMove - 1;
+
             return (
               <div
                 key={card.id}
@@ -133,7 +123,11 @@ export function CardTable() {
                   isLastPlayed ? "inline-flex -mx-10" : "absolute"
                 } md:w-[120px] tablet:w-[100px] w-[90px]`}
                 style={{
-                  transform: !isLastPlayed ? `rotate(${rotate}deg)` : "",
+                  transform: !isLastPlayed
+                    ? ix === 0
+                      ? `${"-rotate(20deg)"}`
+                      : `rotate(${rotate}deg)`
+                    : "",
                 }}
               >
                 <PlayingCard card={card} className={`cursor-default`} />
@@ -146,8 +140,17 @@ export function CardTable() {
         >
           <CardTablePlayerHand
             isGoingFirst={isPlayersTurn && room.turnCounter === 0}
-            onCompletedIt={() => {}}
-            onPass={() => {}}
+            onCompletedIt={() => {
+              socket.emit("completedIt", {
+                completedItHand: selectedCards,
+                player: player,
+                room: room,
+              });
+              setSelectedCards([]);
+            }}
+            onPass={() => {
+              socket.emit("passTurn", { player: player, room: room });
+            }}
             onClickCard={(card) => {
               handleSelectionOfCards(card);
             }}

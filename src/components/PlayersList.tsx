@@ -12,7 +12,10 @@ export function PlayersList(props: {
       {props.room.players.map((p) => {
         const isCurrPlayer = p.id === props.currPlayer.id;
         return (
-          <div key={p.id} className={`flex flex-row justify-between`}>
+          <div
+            key={p.id}
+            className={`flex flex-col md:flex-row md:justify-between`}
+          >
             <p
               key={p.id}
               className={`text-lg ${

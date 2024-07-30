@@ -44,7 +44,10 @@ export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
           <PrezziesButton
             buttonStyle="Secondary"
             customBtnStyle="disabled:bg-gray-500 disabled:opacity-[.7] transform-all duration-300 ease-in-out disabled:ring-0"
-            buttonProps={{ disabled: noCardsSelected }}
+            buttonProps={{
+              disabled: noCardsSelected,
+              onClick: props.onCompletedIt,
+            }}
             // className={`w-full`}
 
             buttonText="Completed It"
@@ -53,6 +56,7 @@ export function CardTablePlayerHand(props: CardTablePlayerHandProps) {
           <PrezziesButton
             buttonStyle="Tertiary"
             icon={<AiFillCloseCircle size={30} />}
+            buttonProps={{ onClick: props.onPass }}
             // className={`w-full justify-between`}
             buttonText="Pass"
           />

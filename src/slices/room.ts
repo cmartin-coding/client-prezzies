@@ -15,6 +15,7 @@ export type Room = {
   room: string;
   shareableRoomCode: string;
   players: AdjustedPlayer[];
+  lastPlayerPlayedId: string;
   handsToChoose: Deck[];
   isFirstGame: boolean;
   numberOfPlayers: number | null;
@@ -25,6 +26,12 @@ export type Room = {
   currentTurnPlayerId: string;
   lastHand: Card[];
   messages: string[];
+  numberOfGames: number;
+  opportunityForCompletedIt: {
+    basePoints: number;
+    numberOfCardsNeeded: number;
+    card: string;
+  };
 };
 
 const initialState: Room = {
@@ -42,6 +49,13 @@ const initialState: Room = {
   gameIsOver: false,
   lastHand: [],
   messages: [],
+  numberOfGames: 1,
+  lastPlayerPlayedId: "",
+  opportunityForCompletedIt: {
+    basePoints: 0,
+    numberOfCardsNeeded: 0,
+    card: "Any",
+  },
 };
 
 export const roomSlice = createSlice({

@@ -42,5 +42,17 @@ export const onPlayedHand =
 
 export const onBroadCast =
   (dispatch: Dispatch<UnknownAction>) => (params: { message: string }) => {
+    console.log(params.message);
     dispatch(roomActions.addMessage(params.message));
+  };
+
+export const onPassTurn =
+  (dispatch: Dispatch<UnknownAction>) => (params: { updatedRoom: Room }) => {
+    dispatch(roomActions.updateRoom(params.updatedRoom));
+  };
+export const onCompletedIt =
+  (dispatch: Dispatch<UnknownAction>) =>
+  (params: { updatedRoom: Room; updatedPlayer: PlayerState }) => {
+    dispatch(roomActions.updateRoom(params.updatedRoom));
+    dispatch(playerActions.updatePlayer(params.updatedPlayer));
   };
