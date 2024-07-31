@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Card, Deck } from "../types";
+import { Card } from "../types";
 // import { Card, Deck } from "../helpers/helpers";
 
 export type AdjustedPlayer = {
@@ -16,7 +16,7 @@ export type Room = {
   shareableRoomCode: string;
   players: AdjustedPlayer[];
   lastPlayerPlayedId: string;
-  handsToChoose: Deck[];
+  handsToChoose: (Card[] | { id: string }[])[];
   isFirstGame: boolean;
   numberOfPlayers: number | null;
   turnCounter: number;

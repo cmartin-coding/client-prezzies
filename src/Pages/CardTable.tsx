@@ -52,7 +52,7 @@ export function CardTable() {
     ...room.cardsPlayed.slice(0, -numberOfCardsInLastMove),
     ...room.lastHand,
   ];
-  console.log(cardsPlayed);
+
   return (
     <Container containerStyle="flex  rounded-md  flex-col bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00] p-4">
       <div
@@ -114,20 +114,18 @@ export function CardTable() {
             const rotate = ix * 34;
             const isLastPlayed =
               ix > cardsPlayed.length - numberOfCardsInLastMove - 1;
-
+            const rotateNegative = ix % 2 === 0 ? 1 : -1;
             return (
               <div
-                key={card.id}
+                key={card.id + ix}
                 id={card.id}
                 className={`${
                   isLastPlayed ? "inline-flex -mx-10" : "absolute"
                 } md:w-[120px] tablet:w-[100px] w-[90px]`}
                 style={{
-                  transform: !isLastPlayed
-                    ? ix === 0
-                      ? `${"-rotate(20deg)"}`
-                      : `rotate(${rotate}deg)`
-                    : "",
+                  transform: isLastPlayed
+                    ? "rotate(0deg)"
+                    : `rotate(${rotateNegative * 24}deg)`,
                 }}
               >
                 <PlayingCard card={card} className={`cursor-default`} />

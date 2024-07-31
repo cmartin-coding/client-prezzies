@@ -37,6 +37,11 @@ export interface ServerToClientEvents {
     updatedPlayer: PlayerState;
     updatedRoom: Room;
   }) => void;
+  onGameIsOver: (params: { updatedRoom: Room }) => void;
+  onLastPlaceUpdated: (params: { updatedPlayer: PlayerState }) => void;
+  onUpdatePlayerAfterGameCompleted: (params: {
+    updatedPlayer: PlayerState;
+  }) => void;
 }
 
 export interface ClientToServerEvents {

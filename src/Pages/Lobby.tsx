@@ -12,7 +12,7 @@ export function Lobby() {
   const room = useAppSelector((state) => state.room);
   const currPlayer = useAppSelector((state) => state.player);
   const navigate = useNavigate();
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(3);
   const [showCountdown, setShowCountdown] = useState(false);
 
   const totalReadyPlayers = room.players.reduce((prev, acc) => {
@@ -24,7 +24,8 @@ export function Lobby() {
   }, 0);
 
   // const allPlayersReady = totalReadyPlayers === room.numberOfPlayers;
-  const allPlayersReady = totalReadyPlayers === room.players.length;
+  const allPlayersReady =
+    totalReadyPlayers === room.players.length && !room.gameIsOver;
 
   useEffect(() => {
     // Once all players ready start a timer that counts down and starts the game sending each player to gameboard
@@ -41,7 +42,7 @@ export function Lobby() {
         setShowCountdown(false);
       }
     } else {
-      setSeconds(5);
+      setSeconds(3);
     }
   }, [allPlayersReady, seconds]);
 
@@ -61,7 +62,7 @@ export function Lobby() {
               className={`absolute flex flex-row justify-center items-center top-0  z-20 left-0 right-0 bottom-0 `}
             >
               <p className={`text-white z-20`}>
-                Game starting in {seconds} seconds
+                Election starting in {seconds} seconds
               </p>
               <div
                 className={`bg-black/70 absolute top-0 z-10 left-0 right-0 bottom-0`}
@@ -80,6 +81,7 @@ export function Lobby() {
             room={room}
             currPlayer={currPlayer}
           />
+
           <ShareableCode
             className={``}
             shareableCode={room.shareableRoomCode}
