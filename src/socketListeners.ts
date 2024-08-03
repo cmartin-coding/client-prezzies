@@ -58,11 +58,8 @@ export const onCompletedIt =
   };
 
 export const onGameOver =
-  (dispatch: Dispatch<UnknownAction>, navigate: NavigateFunction) =>
-  (params: { updatedRoom: Room }) => {
-    console.log("GAME OVER", params.updatedRoom);
+  (dispatch: Dispatch<UnknownAction>) => (params: { updatedRoom: Room }) => {
     dispatch(roomActions.updateRoom(params.updatedRoom));
-    navigate(`/postgame-lobby/${params.updatedRoom.id}`);
   };
 export const onLastPlaceUpdated =
   (dispatch: Dispatch<UnknownAction>) =>
@@ -73,5 +70,10 @@ export const onUpdatePlayerAfterGameCompleted =
   (dispatch: Dispatch<UnknownAction>) =>
   (params: { updatedPlayer: PlayerState }) => {
     console.log("UPDATING PLAYER", params.updatedPlayer);
+    dispatch(playerActions.updatePlayer(params.updatedPlayer));
+  };
+export const onUpdatePlayer =
+  (dispatch: Dispatch<UnknownAction>) =>
+  (params: { updatedPlayer: PlayerState }) => {
     dispatch(playerActions.updatePlayer(params.updatedPlayer));
   };

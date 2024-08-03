@@ -2,7 +2,7 @@ import { Container } from "../components/Container";
 
 import { useAppSelector } from "../hooks";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Positions } from "../types";
 import { updateSelectedCards } from "../helpers";
 import { socket } from "../socket";
@@ -11,9 +11,17 @@ import { CardTablePlayerHand } from "../components/CardTablePlayerHand";
 import { PlayingCard } from "../components/PlayingCard";
 import { positionIcons } from "../const";
 
+import { useModalContext } from "../context/ModalContext";
+import { Leaderboard } from "../components/Leaderboard";
+import { PrezziesButton } from "../components/PrezziesButton";
+import { useNavigate } from "react-router-dom";
+import { PrezziesHeading } from "../components/PrezziesHeader";
+
 export function CardTable() {
   // const containerRef = useRef(null);
   // const dispatch = useDispatch();
+  const modalCtx = useModalContext();
+  const navigate = useNavigate();
 
   const room = useAppSelector((state) => state.room);
   const player = useAppSelector((state) => state.player);
@@ -53,6 +61,34 @@ export function CardTable() {
     ...room.lastHand,
   ];
 
+  useEffect(() => {
+    if (room.gameIsOver) {
+      modalCtx?.openModal(
+        <div className={`flex flex-col items-center gap-4`}>
+          <PrezziesHeading level={1}>Presidents results!</PrezziesHeading>
+          <div className={`w-full`}>
+            <Leaderboard
+              players={room.players}
+              headerPosition="center"
+              header="Standings"
+            />
+          </div>
+          <PrezziesButton
+            buttonText={"Go to post game"}
+            buttonStyle={"Primary"}
+            buttonProps={{
+              onClick: () => {
+                console.log(room);
+                navigate(`/postgame-lobby/${room.id}`);
+                modalCtx.closeModal();
+              },
+            }}
+          />
+        </div>
+      );
+    }
+  }, [room.gameIsOver]);
+
   return (
     <Container containerStyle="flex  rounded-md  flex-col bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00] p-4">
       <div
@@ -63,7 +99,7 @@ export function CardTable() {
           .map((opp) => {
             const isOpponentTurn = opp.id === room.currentTurnPlayerId;
             const Icon =
-              positionIcons[(opp.position as Positions) || "Undecided"];
+              positionIcons[(opp.position.title as Positions) || "Undecided"];
             return (
               <div
                 key={opp.id}
@@ -90,7 +126,7 @@ export function CardTable() {
                   </div>
                 </div>
 
-                {opp.position && <p>{opp.position}</p>}
+                {opp.position && <p>{opp.position.title}</p>}
               </div>
             );
           })}
@@ -111,7 +147,6 @@ export function CardTable() {
           className={` flex absolute w-full  top-[45%] -translate-y-1/2 flex-row justify-center items-center `}
         >
           {cardsPlayed.map((card, ix) => {
-            const rotate = ix * 34;
             const isLastPlayed =
               ix > cardsPlayed.length - numberOfCardsInLastMove - 1;
             const rotateNegative = ix % 2 === 0 ? 1 : -1;

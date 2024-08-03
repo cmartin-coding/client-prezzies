@@ -7,14 +7,19 @@ import { SocketProvider } from "./context/SocketContext";
 import { Toaster } from "react-hot-toast";
 import { CardTable } from "./Pages/CardTable";
 import { PostGameLobby } from "./Pages/PostGameLobby";
+import { ModalProvider } from "./context/ModalContext";
+import { GlobalModal } from "./components/GlobalModal";
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <SocketWrapper />
-      </BrowserRouter>
-      <Toaster position="top-right" />
+      <ModalProvider>
+        <BrowserRouter>
+          <SocketWrapper />
+        </BrowserRouter>
+        <GlobalModal />
+        <Toaster position="top-right" />
+      </ModalProvider>
     </Provider>
   );
 }

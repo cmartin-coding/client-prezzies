@@ -2,13 +2,15 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { RulesModal } from "../components/RulesModal";
 import { socket } from "../socket";
+import { useModalContext } from "../context/ModalContext";
 
 const TOGGLE_CLASSES =
   "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10";
 
 export function Home() {
+  const modalCtx = useModalContext();
   const [isCreatingGame, setIsCreatingGame] = useState(true);
-  const [isRulesOpen, setIsRulesOpen] = useState(false);
+
   const [detail, setDetail] = useState<{
     roomName: string;
     userName: string;
@@ -134,12 +136,11 @@ export function Home() {
             <button
               className="hover:underline"
               onClick={() => {
-                setIsRulesOpen(true);
+                modalCtx?.openModal(<RulesModal />);
               }}
             >
               Read the rules
             </button>
-            <RulesModal isOpen={isRulesOpen} setIsOpen={setIsRulesOpen} />
           </section>
         </div>
       </div>

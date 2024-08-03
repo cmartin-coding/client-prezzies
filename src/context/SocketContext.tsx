@@ -11,12 +11,14 @@ import {
   onPassTurn,
   onPlayedHand,
   onReadyUp,
+  onUpdatePlayer,
   onUpdatePlayerAfterGameCompleted,
   onUpdateRoom,
 } from "../socketListeners";
 import { socket } from "../socket";
 import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
+
 interface ISocketContext {
   socket: Socket | null;
   // isLoading: boolean;
@@ -64,17 +66,22 @@ export const SocketProvider = ({
     // ------------------------------------------------
 
     // ------------ HANDLING GAME OVER LOGIC ------------
-    const handleOnGameOver = onGameOver(dispatch, navigate);
-    const handleUpdateLastPlayer = onLastPlaceUpdated(dispatch);
+    const handleOnGameOver = onGameOver(dispatch);
+    const handleUpdateLastPlayerToFinish = onLastPlaceUpdated(dispatch);
     const handleUpdatePlayerAfterGameIsOver =
       onUpdatePlayerAfterGameCompleted(dispatch);
 
     socket.on("onGameIsOver", handleOnGameOver);
-    socket.on("onLastPlaceUpdated", handleUpdateLastPlayer);
+    socket.on("onLastPlaceUpdated", handleUpdateLastPlayerToFinish);
     socket.on(
       "onUpdatePlayerAfterGameCompleted",
       handleUpdatePlayerAfterGameIsOver
     );
+    // --------------------------------------------------
+
+    // ------------ HANDLING General Player update ------------
+    const handleUpdatePlayer = onUpdatePlayer(dispatch);
+    socket.on("onUpdatePlayer", handleUpdatePlayer);
     // --------------------------------------------------
 
     return () => {
@@ -87,11 +94,12 @@ export const SocketProvider = ({
       socket.off("onPassedTurn", handleOnPassTurn);
       socket.off("onCompletedIt", handleOnCompletedIt);
       socket.off("onGameIsOver", handleOnGameOver);
-      socket.off("onLastPlaceUpdated", handleUpdateLastPlayer);
+      socket.off("onLastPlaceUpdated", handleUpdateLastPlayerToFinish);
       socket.off(
         "onUpdatePlayerAfterGameCompleted",
         handleUpdatePlayerAfterGameIsOver
       );
+      socket.off("onUpdatePlayer", handleUpdatePlayer);
     };
   }, []);
 

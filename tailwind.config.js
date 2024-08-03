@@ -2,7 +2,13 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gold: "#ffbf00",
+        silver: "#e6e6e6",
+        bronze: "#CD7F32",
+      },
+    },
     screens: {
       sm: "599px",
       tablet: "600px",

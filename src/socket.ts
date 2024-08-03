@@ -42,6 +42,8 @@ export interface ServerToClientEvents {
   onUpdatePlayerAfterGameCompleted: (params: {
     updatedPlayer: PlayerState;
   }) => void;
+  onEnteredPostGameLobby: (params: { entered: true }) => void;
+  onUpdatePlayer: (params: { updatedPlayer: PlayerState }) => void;
 }
 
 export interface ClientToServerEvents {
@@ -63,4 +65,5 @@ export interface ClientToServerEvents {
     room: Room;
     completedItHand: Card[];
   }) => void;
+  enteredPostGameLobby: () => void;
 }

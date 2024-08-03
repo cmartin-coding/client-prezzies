@@ -6,9 +6,10 @@ export type AdjustedPlayer = {
   id: string;
   name: string;
   numberOfCardsInHand: number;
-  position: string;
+  position: { place: number; title: string };
   wins: number;
   isReady: boolean;
+  isInPostGameLobby: boolean;
 };
 export type Room = {
   id: string;
@@ -16,7 +17,7 @@ export type Room = {
   shareableRoomCode: string;
   players: AdjustedPlayer[];
   lastPlayerPlayedId: string;
-  handsToChoose: (Card[] | { id: string }[])[];
+  handsToChoose: Partial<Card>[][];
   isFirstGame: boolean;
   numberOfPlayers: number | null;
   turnCounter: number;
