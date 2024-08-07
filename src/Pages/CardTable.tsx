@@ -16,6 +16,7 @@ import { Leaderboard } from "../components/Leaderboard";
 import { PrezziesButton } from "../components/PrezziesButton";
 import { useNavigate } from "react-router-dom";
 import { PrezziesHeading } from "../components/PrezziesHeader";
+import { CompletedItTracker } from "../components/CompletedItTracker";
 
 export function CardTable() {
   // const containerRef = useRef(null);
@@ -61,10 +62,8 @@ export function CardTable() {
     ...room.lastHand,
   ];
 
-  console.log(room);
   useEffect(() => {
     if (room.gameIsOver && modalCtx) {
-      console.log("is in here");
       modalCtx.openModal(
         <div className={`flex flex-col items-center gap-4`}>
           <PrezziesHeading level={1}>Presidents results!</PrezziesHeading>
@@ -116,7 +115,6 @@ export function CardTable() {
                     <p className={`line-clamp-1  text-white`}>{opp.name}</p>
                   </div>
                   <div className={`md:flex hidden flex-col items-center`}>
-                    <p className={`text-white`}>Wins: {opp.wins}</p>
                     {room.numberOfPlayers && room.numberOfPlayers <= 6 && (
                       <div className={`flex flex-row justify-center`}>
                         {[1, 2, 3, 4, 5, 6].map((c) => (
@@ -129,24 +127,32 @@ export function CardTable() {
                     )}
                   </div>
                 </div>
-
-                {opp.position && <p>{opp.position.title}</p>}
+                <p className={`text-white`}>Terms: {opp.wins}</p>
+                {opp.position && (
+                  <p
+                    className={` md:text-lg text-xs font-bold ${
+                      isOpponentTurn ? "text-black" : "text-cyan-300"
+                    }`}
+                  >
+                    {opp.position.title}
+                  </p>
+                )}
               </div>
             );
           })}
       </div>
       <div className={`flex flex-col relative  flex-1 `}>
-        {/* <div
-          className={`md:rounded-[100%]  bg-[#412a13] absolute top-10 left-9 right-9 bottom-4`}
-        /> */}
-
-        {/* <div
-          className={`relative flex flex-col gap-3  flex-1    bg-gradient-to-r from-[#562B00] via-[#884400] to-[#562B00]`}
-        > */}
         <AshTraySVG
           className={`absolute size-24 md:size-40 bottom-[30%] md:left-[5%]`}
         />
-
+        <div className={`self-end absolute bottom-[50%] -translate-y-1/2`}>
+          <CompletedItTracker
+            completedItOpportunity={room.opportunityForCompletedIt}
+            numOfDecks={
+              room.numberOfPlayers && room.numberOfPlayers > 5 ? 2 : 1
+            }
+          />
+        </div>
         <div
           className={` flex absolute w-full  top-[45%] -translate-y-1/2 flex-row justify-center items-center `}
         >
@@ -203,7 +209,17 @@ export function CardTable() {
               setSelectedCards([]);
             }}
           />
+          {/* <PrezziesButton
+            buttonText="tESt"
+            buttonStyle="Primary"
+            buttonProps={{
+              onClick: () => {
+                socket.emit("test");
+              },
+            }}
+          /> */}
         </div>
+
         {/* </div> */}
       </div>
     </Container>

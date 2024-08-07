@@ -50,7 +50,6 @@ export function PostGameLobby() {
         sortedRankings[sortedRankings.length - 1],
       ];
 
-  console.log(isGreaterThan5Players);
   const [selectedCardsToTrade, setSelectedCardsToTrade] = useState<Card[]>([]);
 
   const handleSelectionOfCards = (card: Card) => {
@@ -64,6 +63,20 @@ export function PostGameLobby() {
   const isPlayerTrading =
     playersToTrade.findIndex((p) => p.id === player.id) > -1;
 
+  let numberOfCardsToTrade = 1;
+  if (
+    room.numberOfPlayers &&
+    room.numberOfPlayers > 5 &&
+    (player.position.title === "President" ||
+      player.position.title === "Scummy Scum")
+  ) {
+    numberOfCardsToTrade = 2;
+  }
+
+  const isScum =
+    player.position.title === "Scummy Scum" || player.position.title === "Scum";
+
+  console.log(player.position);
   return (
     <Container
       containerStyle={`p-10 flex flex-col justify-center items-center`}
@@ -166,12 +179,14 @@ export function PostGameLobby() {
               <p>{player.name}</p>
               <PlayerHand
                 hand={player.hand}
-                cardsToBeTradedSelectionDetails={{ numberOfCardsAllowed: 1 }}
+                cardsToBeTradedSelectionDetails={{
+                  numberOfCardsAllowed: numberOfCardsToTrade,
+                }}
                 onClickCard={handleSelectionOfCards}
                 selectedCards={selectedCardsToTrade}
               />
 
-              <p>Please select your card(s) to trade.</p>
+              <p>Please select your {isScum && "best"} card(s) to trade.</p>
               <PrezziesButton
                 buttonStyle="Secondary"
                 buttonText="Send Cards"

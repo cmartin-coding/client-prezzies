@@ -4,7 +4,6 @@ import { RulesModal } from "../components/RulesModal";
 import { socket } from "../socket";
 import { useModalContext } from "../context/ModalContext";
 import { PrezziesButton } from "../components/PrezziesButton";
-import { useCountdownContext } from "../context/CountdownContext";
 
 const TOGGLE_CLASSES =
   "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10";
@@ -29,7 +28,6 @@ export function Home() {
     });
   };
 
-  const countdownCtx = useCountdownContext();
   return (
     <div className="bg-gradient-to-br from-red-300 via-white to-blue-300 flex flex-col items-center h-screen">
       <div className="flex flex-row gap-10 mt-16 ">

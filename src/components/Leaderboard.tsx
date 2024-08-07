@@ -79,9 +79,16 @@ export function Leaderboard(props: {
         </PrezziesHeading>
       )}
       <div
-        className={` tablet:flex grid grid-cols-2 ${
-          props.row ? "tablet:flex-row gap-3" : "tablet:flex-col gap-3"
-        }`}
+        className={` tablet:flex grid grid-cols-2 
+        
+        ${
+          sortedPlayers.length > 5
+            ? "tablet:grid tablet:grid-cols-3"
+            : props.row
+            ? "tablet:flex-row gap-3"
+            : "tablet:flex-col gap-3"
+        }
+        `}
       >
         {sortedPlayers.map((p) => {
           const containerStyle =

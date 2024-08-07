@@ -8,7 +8,7 @@ export type PlayerState = {
   hand: Deck;
   isCurrentTurn: boolean;
   wins: number;
-  position: { position: Positions; place: number };
+  position: { title: Positions; place: number };
   isReady: boolean;
   isHost?: boolean;
 };
@@ -18,7 +18,7 @@ const initialState: PlayerState = {
   hand: [],
   isCurrentTurn: false,
   isReady: false,
-  position: { place: -1, position: "Undecided" },
+  position: { place: -1, title: "Undecided" },
   name: "",
   wins: 0,
 };
@@ -48,9 +48,9 @@ export const playerSlice = createSlice({
     updateHand: (state, action: PayloadAction<Card[]>) => {
       state.hand = action.payload;
     },
-    updatePlayerPosition: (state, action: PayloadAction<string>) => {
-      state.position = action.payload;
-    },
+    // updatePlayerPosition: (state, action: PayloadAction<string>) => {
+    //   state.position = action.payload;
+    // },
     updateWinCounter: (state) => {
       state.wins++;
     },
