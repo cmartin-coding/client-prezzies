@@ -114,7 +114,9 @@ export function CardTable() {
                     <Icon size={60} fill="white" />
                     <p className={`line-clamp-1  text-white`}>{opp.name}</p>
                   </div>
-                  <div className={`md:flex hidden flex-col items-center`}>
+                  <div
+                    className={`md:flex hidden flex-col justify-center items-center`}
+                  >
                     {room.numberOfPlayers && room.numberOfPlayers <= 6 && (
                       <div className={`flex flex-row justify-center`}>
                         {[1, 2, 3, 4, 5, 6].map((c) => (
@@ -130,7 +132,7 @@ export function CardTable() {
                 <p className={`text-white`}>Terms: {opp.wins}</p>
                 {opp.position && (
                   <p
-                    className={` md:text-lg text-xs font-bold ${
+                    className={` md:text-lg  text-xs font-bold ${
                       isOpponentTurn ? "text-black" : "text-cyan-300"
                     }`}
                   >
@@ -157,7 +159,7 @@ export function CardTable() {
           className={`absolute w-[10%] h-[30%] right-[0%] top-[0%]  bg-white/10 blur-3xl`}
         />
         <div
-          className={`absolute w-[30%] h-[60%] left-[10%] -translate-x-1/2 bottom-[20%] translate-y-1/2 rounded-[100%] bg-white/10 blur-3xl`}
+          className={`absolute w-[30%] h-[20%] left-[10%] -translate-x-1/2 bottom-[20%] translate-y-1/2 rounded-[100%] bg-white/10 blur-3xl`}
         />
         <div
           className={`absolute w-[30%] h-[60%] left-[50%] -translate-x-1/2 bottom-[50%] translate-y-1/2 rounded-[100%] bg-white/5 blur-3xl`}
