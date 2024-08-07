@@ -3,17 +3,24 @@ import { useModalContext } from "../context/ModalContext";
 
 export function GlobalModal() {
   const modalCtx = useModalContext();
+
   return (
     <AnimatePresence>
-      {modalCtx?.open && (
+      {modalCtx?.open.isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => {
-            modalCtx.closeModal();
+            if (!modalCtx.open.options.isCannotClickBlurToClose) {
+              modalCtx.closeModal();
+            }
           }}
-          className="bg-slate-900/40 backdrop-blur-lg p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
+          className={`bg-slate-900/40 backdrop-blur-lg p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll ${
+            modalCtx.open.options.isCannotClickBlurToClose
+              ? "cursor-default"
+              : "cursor-pointer"
+          }`}
         >
           <motion.div
             initial={{ scale: 0, rotate: "12.5deg" }}

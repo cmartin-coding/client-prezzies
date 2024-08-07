@@ -59,7 +59,9 @@ export const onCompletedIt =
 
 export const onGameOver =
   (dispatch: Dispatch<UnknownAction>) => (params: { updatedRoom: Room }) => {
-    dispatch(roomActions.updateRoom(params.updatedRoom));
+    if (params.updatedRoom.gameIsOver) {
+      dispatch(roomActions.updateRoom(params.updatedRoom));
+    }
   };
 export const onLastPlaceUpdated =
   (dispatch: Dispatch<UnknownAction>) =>

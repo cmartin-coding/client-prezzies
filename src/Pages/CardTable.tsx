@@ -61,9 +61,11 @@ export function CardTable() {
     ...room.lastHand,
   ];
 
+  console.log(room);
   useEffect(() => {
-    if (room.gameIsOver) {
-      modalCtx?.openModal(
+    if (room.gameIsOver && modalCtx) {
+      console.log("is in here");
+      modalCtx.openModal(
         <div className={`flex flex-col items-center gap-4`}>
           <PrezziesHeading level={1}>Presidents results!</PrezziesHeading>
           <div className={`w-full`}>
@@ -78,13 +80,14 @@ export function CardTable() {
             buttonStyle={"Primary"}
             buttonProps={{
               onClick: () => {
-                console.log(room);
+                socket.emit("enteredPostGameLobby", player, room);
                 navigate(`/postgame-lobby/${room.id}`);
                 modalCtx.closeModal();
               },
             }}
           />
-        </div>
+        </div>,
+        { isCannotClickBlurToClose: true }
       );
     }
   }, [room.gameIsOver]);
@@ -114,15 +117,16 @@ export function CardTable() {
                   </div>
                   <div className={`md:flex hidden flex-col items-center`}>
                     <p className={`text-white`}>Wins: {opp.wins}</p>
-
-                    <div className={`flex flex-row justify-center`}>
-                      {[1, 2, 3, 4, 5, 6].map((c) => (
-                        <div
-                          key={c}
-                          className={`h-[30px] bg-blue-600 w-[20px] border`}
-                        />
-                      ))}
-                    </div>
+                    {room.numberOfPlayers && room.numberOfPlayers <= 6 && (
+                      <div className={`flex flex-row justify-center`}>
+                        {[1, 2, 3, 4, 5, 6].map((c) => (
+                          <div
+                            key={c}
+                            className={`h-[30px] bg-blue-600 w-[20px] border`}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 

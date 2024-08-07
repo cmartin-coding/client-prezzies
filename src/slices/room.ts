@@ -17,7 +17,7 @@ export type Room = {
   shareableRoomCode: string;
   players: AdjustedPlayer[];
   lastPlayerPlayedId: string;
-  handsToChoose: Partial<Card>[][];
+  handsToChoose: Partial<Card>[][] | ({ id: string }[] & Partial<Card>[])[];
   isFirstGame: boolean;
   numberOfPlayers: number | null;
   turnCounter: number;

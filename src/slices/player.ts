@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Card, Deck } from "../types";
+import { Card, Deck, Positions } from "../types";
 // import { Card, Deck } from "../helpers/helpers";
 export type PlayerState = {
   id: string;
@@ -8,7 +8,7 @@ export type PlayerState = {
   hand: Deck;
   isCurrentTurn: boolean;
   wins: number;
-  position: string;
+  position: { position: Positions; place: number };
   isReady: boolean;
   isHost?: boolean;
 };
@@ -18,7 +18,7 @@ const initialState: PlayerState = {
   hand: [],
   isCurrentTurn: false,
   isReady: false,
-  position: "",
+  position: { place: -1, position: "Undecided" },
   name: "",
   wins: 0,
 };

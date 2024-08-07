@@ -44,6 +44,11 @@ export interface ServerToClientEvents {
   }) => void;
   onEnteredPostGameLobby: (params: { entered: true }) => void;
   onUpdatePlayer: (params: { updatedPlayer: PlayerState }) => void;
+  onTest: (params: { serverRoom: any }) => void;
+  onTradingCompleted: (params: {
+    isTradingCompleted: boolean;
+    room: Room;
+  }) => void;
 }
 
 export interface ClientToServerEvents {
@@ -65,5 +70,16 @@ export interface ClientToServerEvents {
     room: Room;
     completedItHand: Card[];
   }) => void;
-  enteredPostGameLobby: () => void;
+  enteredPostGameLobby: (player: PlayerState, room: Room) => void;
+  selectHandInPostGameLobby: (params: {
+    player: PlayerState;
+    room: Room;
+    hand: { id: string }[] & Partial<Card>[];
+  }) => void;
+  test: () => void;
+  tradeHand: (params: {
+    player: PlayerState;
+    room: Room;
+    cardsToTrade: Card[];
+  }) => void;
 }

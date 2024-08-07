@@ -9,17 +9,22 @@ import { CardTable } from "./Pages/CardTable";
 import { PostGameLobby } from "./Pages/PostGameLobby";
 import { ModalProvider } from "./context/ModalContext";
 import { GlobalModal } from "./components/GlobalModal";
+import { CountdownProvider } from "./context/CountdownContext";
+import { GlobalCountdownOverlay } from "./components/GlobalCountdownOverlay";
 
 function App() {
   return (
     <Provider store={store}>
-      <ModalProvider>
-        <BrowserRouter>
-          <SocketWrapper />
-        </BrowserRouter>
-        <GlobalModal />
-        <Toaster position="top-right" />
-      </ModalProvider>
+      <CountdownProvider>
+        <ModalProvider>
+          <BrowserRouter>
+            <SocketWrapper />
+          </BrowserRouter>
+          <GlobalModal />
+          <GlobalCountdownOverlay />
+          <Toaster position="top-right" />
+        </ModalProvider>
+      </CountdownProvider>
     </Provider>
   );
 }

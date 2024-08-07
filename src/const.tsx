@@ -26,7 +26,7 @@ export const positionIcons: { [key in Positions]: IconType } = {
   "Vice President": FaUserTie,
   "Middle Class": FaUserFriends,
   "Upper Class": FaGem,
-  "Lower Middle Class": FaHome,
+  "Lower Class": FaHome,
   Poor: FaHandHoldingUsd,
   Scum: FaTrash,
   "Scummy Scum": FaBiohazard,

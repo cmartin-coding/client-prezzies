@@ -3,6 +3,8 @@ import { useState } from "react";
 import { RulesModal } from "../components/RulesModal";
 import { socket } from "../socket";
 import { useModalContext } from "../context/ModalContext";
+import { PrezziesButton } from "../components/PrezziesButton";
+import { useCountdownContext } from "../context/CountdownContext";
 
 const TOGGLE_CLASSES =
   "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10";
@@ -27,6 +29,7 @@ export function Home() {
     });
   };
 
+  const countdownCtx = useCountdownContext();
   return (
     <div className="bg-gradient-to-br from-red-300 via-white to-blue-300 flex flex-col items-center h-screen">
       <div className="flex flex-row gap-10 mt-16 ">
@@ -119,28 +122,37 @@ export function Home() {
           </form>
           <section className=" p-5 flex flex-col gap-4">
             {isCreatingGame ? (
-              <button
-                className="border  border-black   p-1 rounded-lg"
-                onClick={createRoom}
-              >
-                Create game!
-              </button>
+              <PrezziesButton
+                buttonText="Create game!"
+                buttonStyle="Primary"
+                buttonProps={{ onClick: createRoom }}
+              />
             ) : (
-              <button
-                className="border p-1 border-black  rounded-lg"
-                onClick={joinRoom}
-              >
-                Join game!
-              </button>
+              <PrezziesButton
+                buttonText="Join Game"
+                buttonStyle="Primary"
+                buttonProps={{ onClick: joinRoom }}
+              />
             )}
-            <button
-              className="hover:underline"
-              onClick={() => {
-                modalCtx?.openModal(<RulesModal />);
+            <PrezziesButton
+              buttonStyle="Tertiary"
+              buttonText="Read the rules"
+              buttonProps={{
+                onClick: () => {
+                  modalCtx?.openModal(<RulesModal />);
+                },
               }}
-            >
-              Read the rules
-            </button>
+            />
+
+            {/* <PrezziesButton
+              buttonText="TESt"
+              buttonStyle="Secondary"
+              buttonProps={{
+                onClick: () => {
+                  countdownCtx.startCountdown(4, "TEST", () => {});
+                },
+              }}
+            /> */}
           </section>
         </div>
       </div>

@@ -18,6 +18,8 @@ import {
 import { socket } from "../socket";
 import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
+import { useCountdownContext } from "./CountdownContext";
+import { Room } from "../slices/room";
 
 interface ISocketContext {
   socket: Socket | null;
@@ -35,6 +37,8 @@ export const SocketProvider = ({
   navigate: NavigateFunction;
 }) => {
   const dispatch = useDispatch();
+  const countdownCtx = useCountdownContext();
+  // const modalCtx = useModalContext();
 
   useEffect(() => {
     //// -- CREATING AND JOINING ROOMS FROM HOME SCREEN ---
@@ -81,7 +85,33 @@ export const SocketProvider = ({
 
     // ------------ HANDLING General Player update ------------
     const handleUpdatePlayer = onUpdatePlayer(dispatch);
+    const handleOnTest = (params: any) => {
+      console.log("here", params);
+    };
     socket.on("onUpdatePlayer", handleUpdatePlayer);
+
+    socket.on("onTest", handleOnTest);
+    // --------------------------------------------------
+
+    // ------------ HANDLING Trading Completed update ------------
+    const handleOnTradingComplete = (params: {
+      isTradingCompleted: boolean;
+      room: Room;
+    }) => {
+      const { isTradingCompleted, room } = params;
+      if (isTradingCompleted) {
+        countdownCtx.startCountdown(
+          5,
+          "Trading completed. Time for another election cycle",
+          () => {
+            navigate(`/card-table/${room.room}`);
+          }
+        );
+      }
+    };
+
+    socket.on("onTradingCompleted", handleOnTradingComplete);
+
     // --------------------------------------------------
 
     return () => {
@@ -100,6 +130,8 @@ export const SocketProvider = ({
         handleUpdatePlayerAfterGameIsOver
       );
       socket.off("onUpdatePlayer", handleUpdatePlayer);
+      socket.off("onTest", handleOnTest);
+      socket.off("onTradingCompleted", handleOnTradingComplete);
     };
   }, []);
 

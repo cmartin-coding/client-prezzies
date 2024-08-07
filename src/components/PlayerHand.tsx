@@ -28,23 +28,11 @@ type PlayerHandType = {
   selectedCards?: Card[];
   onClickCard?: (card: Card) => void;
   isFirstTurn?: boolean;
+  cardsCanBeSelected?: boolean;
+  cardsToBeTradedSelectionDetails?: { numberOfCardsAllowed: number };
 };
 export function PlayerHand(props: PlayerHandType) {
-  // const [hand, setHand] = useState(props.hand);
-  // const initialWindowWidth = window.innerWidth;
-  // const [windowWidth, setWindowWidth] = useState(initialWindowWidth);
-  // const isMediumWidth = windowWidth > 1000;
-  // const isTablet = windowWidth > 600 && windowWidth < 1000;
-
   const [activeId, setActiveId] = useState<null | string>(null);
-
-  // useEffect(() => {
-  //   const updateWindowSize = () => {
-  //     setWindowWidth(window.innerWidth);
-  //   };
-  //   window.addEventListener("resize", updateWindowSize);
-  //   return () => window.removeEventListener("resize", updateWindowSize);
-  // }, []);
 
   const dispatch = useDispatch();
   const sensors = useSensors(
@@ -54,7 +42,6 @@ export function PlayerHand(props: PlayerHandType) {
         distance: 8,
       },
     })
-    // useSensor(KeyboardSensor)
   );
 
   const handleDragStart = (ev: DragStartEvent) => {
@@ -107,10 +94,24 @@ export function PlayerHand(props: PlayerHandType) {
               }
             }
 
+            if (props.selectedCards && props.cardsToBeTradedSelectionDetails) {
+              const cardIsInSelectedCards = props.selectedCards.find(
+                (c) => c.id === card.id
+              );
+              if (cardIsInSelectedCards) {
+                canBeSelected = true;
+              } else if (
+                props.selectedCards.length ===
+                props.cardsToBeTradedSelectionDetails.numberOfCardsAllowed
+              ) {
+                canBeSelected = false;
+              }
+            }
+
             return (
               <div
                 ref={setFirstDroppableRef}
-                key={card.id}
+                key={card.id + ix}
                 className={`w-[20%] tablet:w-[15%]  md:w-full md:max-w-[10%]
                   ${ix > 0 && "md:-ml-12 tablet:-ml-10 -ml-6"}  
                   ${activeId === card.id ? "z-[9999]" : "z-[10]"} `}
