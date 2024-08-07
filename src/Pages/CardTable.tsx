@@ -154,7 +154,16 @@ export function CardTable() {
           />
         </div>
         <div
-          className={` flex absolute w-full  top-[45%] -translate-y-1/2 flex-row justify-center items-center `}
+          className={`absolute w-[10%] h-[30%] right-[0%] top-[0%]  bg-white/10 blur-3xl`}
+        />
+        <div
+          className={`absolute w-[30%] h-[60%] left-[10%] -translate-x-1/2 bottom-[20%] translate-y-1/2 rounded-[100%] bg-white/10 blur-3xl`}
+        />
+        <div
+          className={`absolute w-[30%] h-[60%] left-[50%] -translate-x-1/2 bottom-[50%] translate-y-1/2 rounded-[100%] bg-white/5 blur-3xl`}
+        />
+        <div
+          className={` flex absolute  w-full  top-[45%] -translate-y-1/2 flex-row justify-center items-center `}
         >
           {cardsPlayed.map((card, ix) => {
             const isLastPlayed =
