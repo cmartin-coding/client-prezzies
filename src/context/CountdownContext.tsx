@@ -10,7 +10,9 @@ type CountdownContextType = {
   clearCountdown: () => void;
 };
 
-export const CountdownContext = createContext<CountdownContextType>(undefined);
+export const CountdownContext = createContext<CountdownContextType>(
+  undefined as any
+);
 
 export function CountdownProvider(props: { children: ReactNode }) {
   const [countdown, setCountdown] = useState<null | {

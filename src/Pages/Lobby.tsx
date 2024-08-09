@@ -7,7 +7,6 @@ import { useAppSelector } from "../hooks";
 
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
-import { PrezziesButton } from "../components/PrezziesButton";
 
 export function Lobby() {
   const room = useAppSelector((state) => state.room);
@@ -97,7 +96,7 @@ export function Lobby() {
           </div>
         </div>
       </div>
-      <PrezziesButton
+      {/* <PrezziesButton
         buttonText="tESt"
         buttonStyle="Primary"
         buttonProps={{
@@ -105,7 +104,7 @@ export function Lobby() {
             socket.emit("test");
           },
         }}
-      />
+      /> */}
     </Container>
   );
 }

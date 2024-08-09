@@ -1,5 +1,6 @@
 import { PlayerState } from "../slices/player";
 import { Room } from "../slices/room";
+import { PrezziesButton } from "./PrezziesButton";
 
 export function PlayersList(props: {
   room: Room;
@@ -26,16 +27,18 @@ export function PlayersList(props: {
             </p>
             {!isCurrPlayer && <p>{p.isReady ? "Ready" : "Not Ready"}</p>}
             {isCurrPlayer && (
-              <button
-                onClick={() => {
-                  props.onReadyUp(!isPlayerReady);
+              <PrezziesButton
+                buttonProps={{
+                  onClick: () => {
+                    props.onReadyUp(!isPlayerReady);
+                  },
+                  className: ` rounded-md border p-1 transform transition-colors duration-1000 ease-out ${
+                    isPlayerReady && "bg-green-400"
+                  }  `,
                 }}
-                className={` rounded-md border p-1 transform transition-colors duration-1000 ease-out ${
-                  isPlayerReady ? "bg-green-400 " : "bg-white"
-                }  `}
-              >
-                Ready up
-              </button>
+                buttonStyle="Primary"
+                buttonText=" Ready up"
+              />
             )}
           </div>
         );

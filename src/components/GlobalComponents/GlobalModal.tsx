@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useModalContext } from "../context/ModalContext";
+import { useModalContext } from "../../context/ModalContext";
 
 export function GlobalModal() {
   const modalCtx = useModalContext();

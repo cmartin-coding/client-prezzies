@@ -3,6 +3,7 @@ import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
 import { Room, roomActions } from "./slices/room";
 import { playerActions, PlayerState } from "./slices/player";
 import { NavigateFunction } from "react-router-dom";
+import { GameMessagesContextType } from "./context/GameMessagesContext";
 
 export const onCreatedRoom =
   (dispatch: Dispatch<UnknownAction>, nav: NavigateFunction) =>
@@ -41,9 +42,13 @@ export const onPlayedHand =
   };
 
 export const onBroadCast =
-  (dispatch: Dispatch<UnknownAction>) => (params: { message: string }) => {
-    console.log(params.message);
+  (
+    dispatch: Dispatch<UnknownAction>,
+    gameMessageCtx: GameMessagesContextType
+  ) =>
+  (params: { message: string }) => {
     dispatch(roomActions.addMessage(params.message));
+    gameMessageCtx.showGameMessage(params.message, "top");
   };
 
 export const onPassTurn =

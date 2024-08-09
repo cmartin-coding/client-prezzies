@@ -76,12 +76,11 @@ export function PostGameLobby() {
   const isScum =
     player.position.title === "Scummy Scum" || player.position.title === "Scum";
 
-  console.log(player.position);
   return (
     <Container
-      containerStyle={`p-10 flex flex-col justify-center items-center`}
+      containerStyle={`md:p-10 p-4 flex flex-col md:justify-center md:items-center`}
     >
-      <PrezziesButton
+      {/* <PrezziesButton
         buttonStyle="Primary"
         buttonText="TEST"
         buttonProps={{
@@ -89,7 +88,7 @@ export function PostGameLobby() {
             socket.emit("test");
           },
         }}
-      />
+      /> */}
       {numberOfPlayersWeAreWaitingOnToJoinPostGameLobby > 0 && (
         <p>
           Waiting for {numberOfPlayersWeAreWaitingOnToJoinPostGameLobby} more
@@ -97,14 +96,15 @@ export function PostGameLobby() {
         </p>
       )}
       <div
-        className={`flex max-w-6xl w-full bg-white/40 rounded-md p-2 backdrop-blur-lg justify-center items-center flex-col gap-10`}
+        className={`flex max-w-8xl flex-1  w-full bg-white/40 rounded-md p-2 backdrop-blur-lg justify-center items-center flex-col gap-10`}
       >
         {room.handsToChoose.length > 0 && (
           <PrezziesHeading level={1}>{currentPlayersTurnStr}</PrezziesHeading>
         )}
-        <div className={`w-fit`}>
+        <div className={`w-full`}>
           <Leaderboard
             headerPosition="center"
+            currentTurnPlayerID={room.currentTurnPlayerId}
             // header="Standings"
             row
             players={room.players}
@@ -129,7 +129,7 @@ export function PostGameLobby() {
             </p> */}
           </div>
         ) : (
-          <div className={` grid grid-cols-2 gap-6`}>
+          <div className={`flex flex-row flex-wrap gap-3 justify-center`}>
             {room.handsToChoose.map((hand, ix) => {
               return (
                 <div key={ix} className={`flex flex-col items-center gap-1`}>
@@ -139,7 +139,7 @@ export function PostGameLobby() {
                         return (
                           <PlayingCard
                             key={(c.id as string) + ix}
-                            className={`tablet:w-32 w-20 cursor-default`}
+                            className={`tablet:w-28 w-14 cursor-default`}
                             card={c as Card}
                           />
                         );
@@ -147,7 +147,7 @@ export function PostGameLobby() {
                         return (
                           <div
                             key={c.id}
-                            className={`w-20 -mr-[4.9rem]  h-30 border border-black bg-blue-400`}
+                            className={`w-14 -mr-[4.9rem]  h-30 border border-black bg-blue-400`}
                           />
                         );
                       }
@@ -175,8 +175,7 @@ export function PostGameLobby() {
         )}
         {player.hand.length > 0 &&
           (isPlayerTrading && isTimeToTrade ? (
-            <>
-              <p>{player.name}</p>
+            <div className={`flex flex-col items-center `}>
               <PlayerHand
                 hand={player.hand}
                 cardsToBeTradedSelectionDetails={{
@@ -186,21 +185,23 @@ export function PostGameLobby() {
                 selectedCards={selectedCardsToTrade}
               />
 
-              <p>Please select your {isScum && "best"} card(s) to trade.</p>
-              <PrezziesButton
-                buttonStyle="Secondary"
-                buttonText="Send Cards"
-                buttonProps={{
-                  onClick: () => {
-                    socket.emit("tradeHand", {
-                      cardsToTrade: selectedCardsToTrade,
-                      player: player,
-                      room: room,
-                    });
-                  },
-                }}
-              />
-            </>
+              <div className={`flex flex-col items-center mt-4`}>
+                <p>Please select your {isScum && "best"} card(s) to trade.</p>
+                <PrezziesButton
+                  buttonStyle="Primary"
+                  buttonText="Send Cards"
+                  buttonProps={{
+                    onClick: () => {
+                      socket.emit("tradeHand", {
+                        cardsToTrade: selectedCardsToTrade,
+                        player: player,
+                        room: room,
+                      });
+                    },
+                  }}
+                />
+              </div>
+            </div>
           ) : (
             <>
               <PlayerHand hand={player.hand} />

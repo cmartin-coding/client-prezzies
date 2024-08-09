@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCountdownContext } from "../context/CountdownContext";
-import { PrezziesHeading } from "./PrezziesHeader";
+import { useCountdownContext } from "../../context/CountdownContext";
+import { PrezziesHeading } from "../PrezziesHeader";
 
 export function GlobalCountdownOverlay() {
   const countdownCtx = useCountdownContext();

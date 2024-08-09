@@ -98,7 +98,12 @@ export function PlayerHand(props: PlayerHandType) {
               const cardIsInSelectedCards = props.selectedCards.find(
                 (c) => c.id === card.id
               );
-              if (cardIsInSelectedCards) {
+
+              if (
+                cardIsInSelectedCards ||
+                props.selectedCards.length <
+                  props.cardsToBeTradedSelectionDetails.numberOfCardsAllowed
+              ) {
                 canBeSelected = true;
               } else if (
                 props.selectedCards.length ===

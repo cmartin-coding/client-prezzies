@@ -20,6 +20,7 @@ import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import { useCountdownContext } from "./CountdownContext";
 import { Room } from "../slices/room";
+import { useGameMessagesContext } from "./GameMessagesContext";
 
 interface ISocketContext {
   socket: Socket | null;
@@ -38,6 +39,7 @@ export const SocketProvider = ({
 }) => {
   const dispatch = useDispatch();
   const countdownCtx = useCountdownContext();
+  const gameMessagesCtx = useGameMessagesContext();
   // const modalCtx = useModalContext();
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export const SocketProvider = ({
     const handleOnPlayedHand = onPlayedHand(dispatch);
     const handleOnPassTurn = onPassTurn(dispatch);
     const handleOnCompletedIt = onCompletedIt(dispatch);
-    const handleOnBroadcast = onBroadCast(dispatch);
+    const handleOnBroadcast = onBroadCast(dispatch, gameMessagesCtx);
 
     socket.on("onPlayedHand", handleOnPlayedHand);
     socket.on("onPassedTurn", handleOnPassTurn);

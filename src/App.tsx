@@ -8,23 +8,28 @@ import { Toaster } from "react-hot-toast";
 import { CardTable } from "./Pages/CardTable";
 import { PostGameLobby } from "./Pages/PostGameLobby";
 import { ModalProvider } from "./context/ModalContext";
-import { GlobalModal } from "./components/GlobalModal";
+import { GlobalModal } from "./components/GlobalComponents/GlobalModal";
 import { CountdownProvider } from "./context/CountdownContext";
-import { GlobalCountdownOverlay } from "./components/GlobalCountdownOverlay";
+import { GlobalCountdownOverlay } from "./components/GlobalComponents/GlobalCountdownOverlay";
+import { GameMessagesContextProvider } from "./context/GameMessagesContext";
+import { GlobalGameMessageOverlay } from "./components/GlobalComponents/GlobalGameMessageOverlay";
 
 function App() {
   return (
     <Provider store={store}>
-      <CountdownProvider>
-        <ModalProvider>
-          <BrowserRouter>
-            <SocketWrapper />
-          </BrowserRouter>
-          <GlobalModal />
-          <GlobalCountdownOverlay />
-          <Toaster position="top-right" />
-        </ModalProvider>
-      </CountdownProvider>
+      <GameMessagesContextProvider>
+        <CountdownProvider>
+          <ModalProvider>
+            <BrowserRouter>
+              <SocketWrapper />
+            </BrowserRouter>
+            <GlobalModal />
+            <GlobalCountdownOverlay />
+            <GlobalGameMessageOverlay />
+            <Toaster position="top-right" />
+          </ModalProvider>
+        </CountdownProvider>
+      </GameMessagesContextProvider>
     </Provider>
   );
 }

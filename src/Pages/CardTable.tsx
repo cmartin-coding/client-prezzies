@@ -129,7 +129,7 @@ export function CardTable() {
                     )}
                   </div>
                 </div>
-                <p className={`text-white`}>Terms: {opp.wins}</p>
+                <p className={`text-white`}>Terms Served: {opp.wins}</p>
                 {opp.position && (
                   <p
                     className={` md:text-lg  text-xs font-bold ${

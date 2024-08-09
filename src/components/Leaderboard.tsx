@@ -51,6 +51,7 @@ export function Leaderboard(props: {
   players: AdjustedPlayer[];
   className?: string;
   row?: boolean;
+  currentTurnPlayerID?: string;
   header?: string;
   headerPosition?: "center" | "right" | "left";
 }) {
@@ -78,27 +79,20 @@ export function Leaderboard(props: {
           {props.header}
         </PrezziesHeading>
       )}
-      <div
-        className={` tablet:flex grid grid-cols-2 
-        
-        ${
-          sortedPlayers.length > 5
-            ? "tablet:grid tablet:grid-cols-3"
-            : props.row
-            ? "tablet:flex-row gap-3"
-            : "tablet:flex-col gap-3"
-        }
-        `}
-      >
+      <div className={`flex flex-row gap-2 flex-wrap`}>
         {sortedPlayers.map((p) => {
           const containerStyle =
             POSITION_STYLES[p.position.title as Positions].containerStyle;
           const textStyle =
             POSITION_STYLES[p.position.title as Positions].textStyle;
+          const isCurrentTurn =
+            props.currentTurnPlayerID && p.id === props.currentTurnPlayerID;
           return (
             <div
               key={p.id}
-              className={`flex  flex-col relative backdrop-blur-md gap-1 flex-1   rounded-md p-2 ${
+              className={`flex ${
+                isCurrentTurn && "border-green-400 border-2"
+              } flex-col relative backdrop-blur-md gap-1 flex-1   rounded-md p-2 ${
                 containerStyle ? containerStyle : "bg-amber-800"
               } `}
             >
