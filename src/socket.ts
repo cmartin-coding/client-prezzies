@@ -8,7 +8,7 @@ import { Card } from "./types";
 // const URL = "http://localhost:3000/";
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:3000"
+  "http://137.184.184.41:3000"
 );
 
 socket.on("connect", () => {
