@@ -1,9 +1,9 @@
 import { Card } from "../types";
 
-import { CSS } from "@dnd-kit/utilities";
+import { CSS, Transform } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 // import { suitIcons } from "../const";
-import { PlayingCardSVG } from "./PlayingCardSVG";
+import { PlayingCardSVG } from "./SVG/PlayingCardSVG";
 
 type PlayingCardType = {
   card: Card;
@@ -26,9 +26,8 @@ export function PlayingCard(props: PlayingCardType) {
   } = useSortable({ id: props.card.id });
 
   const style = {
-    // @ts-expect-error dnd kit customization
     transform: CSS.Transform.toString({
-      ...transform,
+      ...(transform as Transform),
 
       scaleX: isDragging ? 0.8 : 1,
       scaleY: isDragging ? 0.8 : 1,

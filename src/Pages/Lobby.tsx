@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Container } from "../components/Container";
 import { PlayerHand } from "../components/PlayerHand";
 import { PlayersList } from "../components/PlayersList";
@@ -7,45 +6,12 @@ import { useAppSelector } from "../hooks";
 
 import { socket } from "../socket";
 import { useNavigate } from "react-router-dom";
+import { PrezziesButton } from "../components/PrezziesButton";
 
 export function Lobby() {
   const room = useAppSelector((state) => state.room);
   const currPlayer = useAppSelector((state) => state.player);
   const navigate = useNavigate();
-  const [seconds, setSeconds] = useState(3);
-  const [showCountdown, setShowCountdown] = useState(false);
-
-  const totalReadyPlayers = room.players.reduce((prev, acc) => {
-    if (acc.isReady) {
-      return prev + 1;
-    } else {
-      return 0;
-    }
-  }, 0);
-
-  // const allPlayersReady = totalReadyPlayers === room.numberOfPlayers;
-  const allPlayersReady =
-    totalReadyPlayers === room.players.length && !room.gameIsOver;
-
-  useEffect(() => {
-    // Once all players ready start a timer that counts down and starts the game sending each player to gameboard
-    if (allPlayersReady) {
-      setShowCountdown(true);
-      if (seconds > 0) {
-        const interval = setInterval(
-          () => setSeconds((prev) => prev - 1),
-          1000
-        );
-        return () => clearInterval(interval);
-      } else {
-        navigate(`/card-table/${room.id}`);
-        setShowCountdown(false);
-      }
-    } else {
-      setSeconds(3);
-    }
-  }, [allPlayersReady, seconds]);
-
   return (
     <Container containerStyle={`flex flex-col  `}>
       <div
@@ -57,18 +23,6 @@ export function Lobby() {
           <p className={`font-bold text-lg text-center`}>
             Players ({room.players.length})
           </p>
-          {showCountdown && (
-            <div
-              className={`absolute flex flex-row justify-center items-center top-0  z-20 left-0 right-0 bottom-0 `}
-            >
-              <p className={`text-white z-20`}>
-                Election starting in {seconds} seconds
-              </p>
-              <div
-                className={`bg-black/70 absolute top-0 z-10 left-0 right-0 bottom-0`}
-              />
-            </div>
-          )}
 
           <PlayersList
             onReadyUp={(bool) => {
@@ -81,11 +35,26 @@ export function Lobby() {
             room={room}
             currPlayer={currPlayer}
           />
+          <div className={`flex flex-row justify-between mx-4`}>
+            <ShareableCode
+              className={``}
+              shareableCode={room.shareableRoomCode}
+            />
 
-          <ShareableCode
-            className={``}
-            shareableCode={room.shareableRoomCode}
-          />
+            <PrezziesButton
+              buttonStyle="Tertiary"
+              buttonText="Leave Room"
+              buttonProps={{
+                onClick: () => {
+                  socket.emit("leaveGameFromLobby", {
+                    player: currPlayer,
+                    room: room,
+                  });
+                  navigate("/");
+                },
+              }}
+            />
+          </div>
         </div>
         <div
           className={`flex flex-1 p-4   tablet:justify-end items-center flex-col gap-3 my-6`}

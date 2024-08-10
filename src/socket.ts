@@ -22,6 +22,7 @@ export interface ServerToClientEvents {
   onCreatedRoom: (params: { room: Room; player: PlayerState }) => void;
   onJoinedRoom: (params: { room: Room; player: PlayerState }) => void;
   onUpdateRoom: (params: { updatedRoom: Room }) => void;
+  onAllPlayersReady: (params: { shouldStartGame: boolean; room: Room }) => void;
   onReadyUp: (params: {
     updatedRoom: Room;
     updatedPlayer: PlayerState;
@@ -82,4 +83,5 @@ export interface ClientToServerEvents {
     room: Room;
     cardsToTrade: Card[];
   }) => void;
+  leaveGameFromLobby: (params: { room: Room; player: PlayerState }) => void;
 }

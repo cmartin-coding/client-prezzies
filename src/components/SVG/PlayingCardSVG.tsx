@@ -1,5 +1,5 @@
 import { SVGProps } from "react";
-import { Suits } from "../types";
+import { Suits } from "../../types";
 
 export type SVGPlayingCardType = {
   cardname: string;

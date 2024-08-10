@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { useDroppable } from "@dnd-kit/core";
 
 export function Droppable(props: { children: ReactNode | string; id: string }) {

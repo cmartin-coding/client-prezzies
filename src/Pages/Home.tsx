@@ -156,13 +156,7 @@ export function Home() {
           </section>
         </div>
       </div>
-      <button
-        onClick={() => {
-          gameMessageCtx.showGameMessage("TESTING MESSAGE", "top");
-        }}
-      >
-        TEST
-      </button>
+
       {/* <div className={`absolute  h-[130px] animate-test w-full bg-blue-400`}>
         <p>WOWOW</p>
       </div> */}

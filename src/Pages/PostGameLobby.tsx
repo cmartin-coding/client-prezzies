@@ -96,7 +96,7 @@ export function PostGameLobby() {
         </p>
       )}
       <div
-        className={`flex max-w-8xl flex-1  w-full bg-white/40 rounded-md p-2 backdrop-blur-lg justify-center items-center flex-col gap-10`}
+        className={`flex max-w-8xl flex-1  w-full bg-white/40 rounded-md p-2 backdrop-blur-lg  items-center flex-col gap-10`}
       >
         {room.handsToChoose.length > 0 && (
           <PrezziesHeading level={1}>{currentPlayersTurnStr}</PrezziesHeading>
@@ -129,7 +129,7 @@ export function PostGameLobby() {
             </p> */}
           </div>
         ) : (
-          <div className={`flex flex-row flex-wrap gap-3 justify-center`}>
+          <div className={`flex flex-row flex-wrap gap-8 `}>
             {room.handsToChoose.map((hand, ix) => {
               return (
                 <div key={ix} className={`flex flex-col items-center gap-1`}>
@@ -139,7 +139,7 @@ export function PostGameLobby() {
                         return (
                           <PlayingCard
                             key={(c.id as string) + ix}
-                            className={`tablet:w-28 w-14 cursor-default`}
+                            className={`tablet:w-28 w-32 cursor-default`}
                             card={c as Card}
                           />
                         );
@@ -147,7 +147,7 @@ export function PostGameLobby() {
                         return (
                           <div
                             key={c.id}
-                            className={`w-14 -mr-[4.9rem]  h-30 border border-black bg-blue-400`}
+                            className={`w-14 -mr-[2.4rem]  h-30 border border-black bg-blue-400`}
                           />
                         );
                       }
@@ -186,6 +186,8 @@ export function PostGameLobby() {
               />
 
               <div className={`flex flex-col items-center mt-4`}>
+                <p>{player.name}</p>
+                <p>{player.position.title}</p>
                 <p>Please select your {isScum && "best"} card(s) to trade.</p>
                 <PrezziesButton
                   buttonStyle="Primary"

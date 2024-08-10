@@ -1,4 +1,4 @@
-import { AshTraySVG } from "./AshTraySVG";
+import { AshTraySVG } from "./SVG/AshTraySVG";
 
 export function CardTableAndAshTray() {
   return (

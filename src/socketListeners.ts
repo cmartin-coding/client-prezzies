@@ -48,7 +48,7 @@ export const onBroadCast =
   ) =>
   (params: { message: string }) => {
     dispatch(roomActions.addMessage(params.message));
-    gameMessageCtx.showGameMessage(params.message, "top");
+    gameMessageCtx.showGameMessage(params.message, "bottom");
   };
 
 export const onPassTurn =

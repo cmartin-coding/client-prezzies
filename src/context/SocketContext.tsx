@@ -54,9 +54,25 @@ export const SocketProvider = ({
     //------ UPDATING ROOM AND LOBBY LISTENERS --------
     const handleUpdateRoom = onUpdateRoom(dispatch);
     const handleReadyUp = onReadyUp(dispatch);
+    const handleAllPlayersReady = (params: {
+      room: Room;
+      shouldStartGame: boolean;
+    }) => {
+      const { shouldStartGame, room } = params;
+      if (shouldStartGame) {
+        countdownCtx.startCountdown(
+          3,
+          "All candidates ready. Election starting.",
+          () => {
+            navigate(`/card-table/${room.room}`);
+          }
+        );
+      }
+    };
 
     socket.on("onUpdateRoom", handleUpdateRoom);
     socket.on("onReadyUp", handleReadyUp);
+    socket.on("onAllPlayersReady", handleAllPlayersReady);
     // ------------------------------------------------
 
     // ------------- HANDLING GAME LOGIC ---------------
@@ -116,6 +132,14 @@ export const SocketProvider = ({
 
     // --------------------------------------------------
 
+    // HANDLING DISCONNECTIONS
+    const handleDisconnect = () => {
+      if (!socket.recovered) {
+        navigate("/");
+        gameMessagesCtx.showGameMessage("You were disconnected", "top");
+      }
+    };
+    socket.on("disconnect", handleDisconnect);
     return () => {
       socket.off("onCreatedRoom", handleCreateRoom);
       socket.off("onJoinedRoom", handleJoinRoom);
@@ -134,6 +158,8 @@ export const SocketProvider = ({
       socket.off("onUpdatePlayer", handleUpdatePlayer);
       socket.off("onTest", handleOnTest);
       socket.off("onTradingCompleted", handleOnTradingComplete);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("onAllPlayersReady", handleAllPlayersReady);
     };
   }, []);
 

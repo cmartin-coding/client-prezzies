@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Card, Positions } from "../types";
 import { updateSelectedCards } from "../helpers";
 import { socket } from "../socket";
-import { AshTraySVG } from "../components/AshTraySVG";
+import { AshTraySVG } from "../components/SVG/AshTraySVG";
 import { CardTablePlayerHand } from "../components/CardTablePlayerHand";
 import { PlayingCard } from "../components/PlayingCard";
 import { positionIcons } from "../const";
