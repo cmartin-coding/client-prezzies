@@ -6,8 +6,11 @@ export function ShareableCode(props: {
   className?: string;
 }) {
   const handleCopyAndNotify = async (text: string) => {
-    await navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard");
+    // await navigator.clipboard.writeText(text);
+    console.log(text);
+    toast.success(
+      "This did not copy to clipboard because I need to setup HTTPS, so highlight and copy for now."
+    );
   };
 
   return (
