@@ -16,7 +16,7 @@ export function GlobalModal() {
               modalCtx.closeModal();
             }
           }}
-          className={`bg-slate-900/40 backdrop-blur-lg p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll ${
+          className={`bg-slate-900/40 backdrop-blur-lg tablet:p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll ${
             modalCtx.open.options.isCannotClickBlurToClose
               ? "cursor-default"
               : "cursor-pointer"
@@ -38,7 +38,7 @@ export function GlobalModal() {
             //   duration: 10,
             // }}
             onClick={(e) => e.stopPropagation()}
-            className="backdrop-blur-md bg-white/80 text-black p-10 rounded-lg w-full max-w-3xl  cursor-default relative overflow-hidden"
+            className="backdrop-blur-md bg-white/80 text-black md:p-10  tablet:rounded-lg w-full tablet:max-w-3xl  cursor-default relative md:overflow-hidden"
           >
             {modalCtx.modal}
           </motion.div>

@@ -4,12 +4,17 @@ import { Room } from "./slices/room";
 import { Card } from "./types";
 
 // "undefined" means the URL will be computed from the `window.location` object
+// console.log(process.env.NODE_ENV, "here");
+
 // const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
 // const URL = "http://localhost:3000/";
 
-export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://137.184.184.41:3000"
-);
+const URL =
+  process.env.NODE_ENV === "production"
+    ? "http://137.184.184.41:3000"
+    : "http://localhost:3000";
+export const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+  io(URL);
 
 socket.on("connect", () => {
   console.log("connected to server");
